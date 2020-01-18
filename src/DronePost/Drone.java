@@ -31,6 +31,11 @@ public class Drone {
 		this.droneID=droneID;
 	}
 	
+	public void setCurrentOrder(Order currentOrder)
+	{
+		this.currentOrder=currentOrder;
+	}
+	
 	public void setIsAvailable(boolean isAvailable)
 	{
 		this.isAvailable=isAvailable;
@@ -74,6 +79,11 @@ public class Drone {
 	public boolean getIsAvailable()
 	{
 		return isAvailable;
+	}
+	
+	public Order getCurrentOrder()
+	{
+		return currentOrder;
 	}
 
 	public int getBatteryLifePercentage()

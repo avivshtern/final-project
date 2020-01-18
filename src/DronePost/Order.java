@@ -8,16 +8,18 @@ public class Order{
 	private Client requestingClient;
 	private Client destinedClient;
 	private Date dateCreated;
+	private Drone missionDrone;
 	
 	Order()
 	{}
 	
-	Order(int orderNum, Client requestingClient, Client destinedClient, Date dateCreated)
+	Order(int orderNum, Client requestingClient, Client destinedClient, Date dateCreated, Drone missionDrone)
 	{
 		setOrderNum(orderNum);
 		setRequestingClient(requestingClient);
 		setDestinedClient(destinedClient);
 		setDateCreated(dateCreated);
+		setMissionDrone(missionDrone);
 	}
 	
 	public void setOrderNum(int orderNum)
@@ -40,6 +42,11 @@ public class Order{
 		this.dateCreated=dateCreated;
 	}
 	
+	public void setMissionDrone (Drone missionDrone)
+	{
+		this.missionDrone=missionDrone;
+	}
+	
 	public int getOrderNum()
 	{
 		return orderNum;
@@ -60,5 +67,9 @@ public class Order{
 		return dateCreated;
 	}
 	
+	public Drone getMissionDrone()
+	{
+		return missionDrone;
+	}
 	
 }

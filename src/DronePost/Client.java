@@ -1,27 +1,40 @@
 package DronePost;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class Client{
 
 	private String firstName;
 	private String lastName;
 	private Address address;
 	private String phoneNumber; // used string because wanted to keep 0 at the beginning
+	private int clientID;
+	private int numOfOrders;
+	private Date dateOfRegistration;
 	
+	private ArrayList<Order> clientOrderList = new ArrayList<Order>(0);
 	Client()
 	{}
 	
-	Client(String firstName, String lastName, Address address, String phoneNumber)
+	Client(String firstName, String lastName, Address address, String phoneNumber, int clientID, Date dateOfRegistration)
 	{
 		setName(firstName, lastName);
 		setAddress(address);
 		setPhoneNumber(phoneNumber);
+		setClientID(clientID);
+		setDateOfRegistration(dateOfRegistration);
+		numOfOrders=0;
 	}
 	
-	Client(String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber)
+	Client(String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber, int clientID, Date dateOfRegistration)
 	{
 		setName(firstName, lastName);
 		setAddress(cityName, streetName, streetNum);
 		setPhoneNumber(phoneNumber);
+		setClientID(clientID);
+		setDateOfRegistration(dateOfRegistration);
+		numOfOrders=0;
 	}
 			
 	public void setFirstName(String firstName)
@@ -50,15 +63,27 @@ public class Client{
 		this.address=new Address (cityName, streetName, streetNum);
 	}
 	
-	public boolean setPhoneNumber(String phoneNumber)
+	public void setPhoneNumber(String phoneNumber)
 	{
-		if (phoneNumber.length()>10)
-		{
-			return false;
-		}
 		this.phoneNumber=phoneNumber;
-		return true;
 	}
+	
+	public void setClientID (int clientID)
+	{
+		this.clientID=clientID;
+	}
+
+	public void setDateOfRegistration(Date dateOfRegistration)
+	{
+		this.dateOfRegistration=dateOfRegistration;		
+	}
+	
+	public void addNewOrder(Order order)
+	{
+		numOfOrders++;
+		clientOrderList.ensureCapacity(numOfOrders);
+		clientOrderList.add(order);
+	}	
 	
 	public String getName()
 	{
@@ -84,4 +109,16 @@ public class Client{
 	{
 		return phoneNumber;
 	}
+	
+	public int getClientID()
+	{
+		return clientID;
+	}
+	
+	public Date getDateOfRegistration()
+	{
+		return dateOfRegistration;
+	}
+	
+	
 }

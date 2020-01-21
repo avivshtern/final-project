@@ -5,11 +5,12 @@ public class Drone {
 	private boolean isAvailable;
 	private int batteryLifePercentage;
 	private Order currentOrder;
-	private Client requestingClient=currentOrder.getRequestingClient();
-	private Client destinedClient=currentOrder.getDestinedClient();
-	private Address startingAddress=requestingClient.getAddress();
-	private Address destenationAddress=destinedClient.getAddress();
+	private Client requestingClient;
+	private Client destinedClient;
+	private Address startingAddress;
+	private Address destenationAddress;
 	private Message messageType;
+	
 	
 	Drone()
 	{}
@@ -19,12 +20,44 @@ public class Drone {
 		setDroneID(droneID);
 		setIsAvailable(isAvailable);
 		setBatteryLifePercentage(batteryLifePercentage);
+		setCurrentOrder(currentOrder);
 		setRequestingClient(requestingClient);
 		setDestinedClient(destinedClient);
 		setStartingAddress(startingAddress);
 		setDestinedClient(destinedClient);
 		setMessageType(messageType);
 	}
+	
+	Drone (int droneID, boolean isAvailable, int batteryLifePercentage, Order currentOrder)
+	{
+		setDroneID(droneID);
+		setIsAvailable(isAvailable);
+		setBatteryLifePercentage(batteryLifePercentage);
+		setCurrentOrder(currentOrder);
+		requestingClient=currentOrder.getRequestingClient();
+		destinedClient=currentOrder.getDestinedClient();
+		startingAddress=requestingClient.getAddress();
+		destenationAddress=destinedClient.getAddress();
+	}
+
+	Drone (int droneID)
+	{
+		setDroneID(droneID);
+		isAvailable=true;
+		batteryLifePercentage=100;
+	}
+	
+	public void setForOrder(Order currentOrder)
+	{
+		isAvailable=true;
+		setCurrentOrder(currentOrder);
+		requestingClient=currentOrder.getRequestingClient();
+		destinedClient=currentOrder.getDestinedClient();
+		startingAddress=requestingClient.getAddress();
+		destenationAddress=destinedClient.getAddress();
+	}
+	
+
 	
 	public void setDroneID(int droneID)
 	{

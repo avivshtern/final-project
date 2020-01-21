@@ -10,10 +10,9 @@ public class Client{
 	private Address address;
 	private String phoneNumber; // used string because wanted to keep 0 at the beginning
 	private int clientID;
-	private int numOfOrders;
 	private Date dateOfRegistration;
-	
 	private ArrayList<Order> clientOrderList = new ArrayList<Order>(0);
+	
 	Client()
 	{}
 	
@@ -24,7 +23,6 @@ public class Client{
 		setPhoneNumber(phoneNumber);
 		setClientID(clientID);
 		setDateOfRegistration(dateOfRegistration);
-		numOfOrders=0;
 	}
 	
 	Client(String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber, int clientID, Date dateOfRegistration)
@@ -34,7 +32,6 @@ public class Client{
 		setPhoneNumber(phoneNumber);
 		setClientID(clientID);
 		setDateOfRegistration(dateOfRegistration);
-		numOfOrders=0;
 	}
 			
 	public void setFirstName(String firstName)
@@ -80,8 +77,7 @@ public class Client{
 	
 	public void addNewOrder(Order order)
 	{
-		numOfOrders++;
-		clientOrderList.ensureCapacity(numOfOrders);
+		clientOrderList.ensureCapacity(clientOrderList.size()+1);
 		clientOrderList.add(order);
 	}	
 	

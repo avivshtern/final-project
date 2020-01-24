@@ -10,19 +10,23 @@ public class Client{
 	private Address address;
 	private String phoneNumber; // used string because wanted to keep 0 at the beginning
 	private int clientID;
+	private static eSubscriptionType subscriptionType;
+	private int numOfShipmentsLeft;
 	private Date dateOfRegistration;
+	
 	private ArrayList<Order> clientOrderList = new ArrayList<Order>(0);
 	
 	Client()
 	{}
 	
-	Client(String firstName, String lastName, Address address, String phoneNumber, int clientID, Date dateOfRegistration)
+	Client(String firstName, String lastName, Address address, String phoneNumber, int clientID, Date dateOfRegistration, eSubscriptionType subscriptionType)
 	{
 		setName(firstName, lastName);
 		setAddress(address);
 		setPhoneNumber(phoneNumber);
 		setClientID(clientID);
 		setDateOfRegistration(dateOfRegistration);
+		setSubscriptionType(subscriptionType);
 	}
 	
 	Client(String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber, int clientID, Date dateOfRegistration)
@@ -33,7 +37,32 @@ public class Client{
 		setClientID(clientID);
 		setDateOfRegistration(dateOfRegistration);
 	}
-			
+	
+	public void setSubscriptionType (eSubscriptionType subscriptionType)
+	{
+		this.subscriptionType=subscriptionType;
+		if (subscriptionType==eSubscriptionType.BIG_PACKAGE)
+		{
+			numOfShipmentsLeft=150;
+		}
+		if (subscriptionType==eSubscriptionType.SMALL_PACKAGE)
+		{
+			numOfShipmentsLeft=50;
+		}
+	}
+	
+	public void addNewOrder(Order order)
+	{
+	/*	if (numOfShipmentsLeft==0)
+		{
+			break;	
+		}
+	*/
+		clientOrderList.ensureCapacity(clientOrderList.size()+1);
+		clientOrderList.add(order);
+		numOfShipmentsLeft--;
+	}	
+	
 	public void setFirstName(String firstName)
 	{
 		this.firstName=firstName;
@@ -75,12 +104,6 @@ public class Client{
 		this.dateOfRegistration=dateOfRegistration;		
 	}
 	
-	public void addNewOrder(Order order)
-	{
-		clientOrderList.ensureCapacity(clientOrderList.size()+1);
-		clientOrderList.add(order);
-	}	
-	
 	public String getName()
 	{
 		return (firstName+' '+lastName);
@@ -116,5 +139,9 @@ public class Client{
 		return dateOfRegistration;
 	}
 	
+	public eSubscriptionType getSubscriptionType()
+	{
+		return subscriptionType;
+	}
 	
 }

@@ -1,6 +1,10 @@
 package DronePost;
 
 public class Drone {
+	
+	private static final int MISSION_TIME_IN_MS = 5000;
+	private static final int MAX_FLIGHT_TIME_IN_HOURS = 3;
+	
 	private int droneID;
 	private boolean isAvailable;
 	private int batteryLifePercentage;
@@ -19,7 +23,7 @@ public class Drone {
 	{
 		setDroneID(droneID);
 		setIsAvailable(isAvailable);
-		setBatteryLifePercentage(batteryLifePercentage);
+		setBatteryLifePercentage(100);
 		setCurrentOrder(currentOrder);
 		setRequestingClient(requestingClient);
 		setDestinedClient(destinedClient);
@@ -28,11 +32,11 @@ public class Drone {
 		setMessageType(messageType);
 	}
 	
-	Drone (int droneID, boolean isAvailable, int batteryLifePercentage, Order currentOrder)
+	Drone (int droneID, boolean isAvailable, Order currentOrder)
 	{
 		setDroneID(droneID);
 		setIsAvailable(isAvailable);
-		setBatteryLifePercentage(batteryLifePercentage);
+		setBatteryLifePercentage(100);
 		setCurrentOrder(currentOrder);
 		requestingClient=currentOrder.getRequestingClient();
 		destinedClient=currentOrder.getDestinedClient();
@@ -49,15 +53,30 @@ public class Drone {
 	
 	public void setForOrder(Order currentOrder)
 	{
-		isAvailable=true;
 		setCurrentOrder(currentOrder);
 		requestingClient=currentOrder.getRequestingClient();
 		destinedClient=currentOrder.getDestinedClient();
 		startingAddress=requestingClient.getAddress();
 		destenationAddress=destinedClient.getAddress();
-	}
-	
 
+		isAvailable=false;
+		new java.util.Timer().schedule( 
+		        new java.util.TimerTask() {
+		            @Override
+		            public void run() {
+		                isAvailable=true;
+		                batteryLifePercentage = batteryLifePercentage-MISSION_TIME_IN_MS/(MAX_FLIGHT_TIME_IN_HOURS*60*60*100);
+		                if (batteryLifePercentage<=0)
+		                {
+		                	batteryLifePercentage=100;//simulates charging
+		                }
+		                
+		            }
+		        }, 
+		        MISSION_TIME_IN_MS 
+		);
+		
+	}
 	
 	public void setDroneID(int droneID)
 	{

@@ -1,4 +1,4 @@
-package reg1;
+package DronePost;
 
 	
 	import javax.swing.*;
@@ -125,56 +125,56 @@ import java.awt.event.*;
 	    @SuppressWarnings("null")
 		@Override
 	    public void actionPerformed(ActionEvent e) {
-	        if(e.getSource()==registerButton)
-	        {
-	            try {
-	                Connection  connection = null;
-	                java.sql.Statement stmt = null;
-	                connection=Connection.getConn();
-	                PreparedStatement Pstatement=connection.prepareStatement("insert into student values(?,?,?,?,?,?,?)");
-	                Pstatement.setString(1,nameTextField.getText());
-	                Pstatement.setString(2,genderComboBox.getSelectedItem().toString());
-	                Pstatement.setString(3,StreetTextField.getText());
-	                Pstatement.setString(4,passwordField.getText());
-	                Pstatement.setString(5,confirmPasswordField.getText());
-	                Pstatement.setString(6,cityTextField.getText());
-	                Pstatement.setString(7,emailTextField.getText());
-	                Pstatement.setString(8,POBTextField.getText());
-	                if(passwordField.getText().equalsIgnoreCase(confirmPasswordField.getText()))
-	                {
-
-	                    Pstatement.executeUpdate();
-	                    JOptionPane.showMessageDialog(null,"Data Registered Successfully");
-	                }
-	                else
-	                {
-	                    JOptionPane.showMessageDialog(null,"password did not match");
-	                }
-
-	            } catch (SQLException e1) {
-	                e1.printStackTrace();
-	            } catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-
-	        }
-	        if(e.getSource()==resetButton)
-	        {
-	            fnameTextField.setText("");
-	            lnameTextField.setText("");
-	            genderComboBox.setSelectedItem("Male");
-	            countryComboBox.setSelectedItem("");
-	            StreetTextField.setText("");
-	            POBTextField.setText("");
-	            passwordField.setText("");
-	            confirmPasswordField.setText("");
-	            cityTextField.setText("");
-	            emailTextField.setText("");
-	            confirmEmailTextField.setText("");
-	        }
-
+//	        if(e.getSource()==registerButton)
+//	        {
+//	            try {
+//	                Connection  connection = null;
+//	                java.sql.Statement stmt = null;
+//	                connection=Connection.getConn();
+//	                PreparedStatement Pstatement=connection.prepareStatement("insert into student values(?,?,?,?,?,?,?)");
+//	                Pstatement.setString(1,nameTextField.getText());
+//	                Pstatement.setString(2,genderComboBox.getSelectedItem().toString());
+//	                Pstatement.setString(3,StreetTextField.getText());
+//	                Pstatement.setString(4,passwordField.getText());
+//	                Pstatement.setString(5,confirmPasswordField.getText());
+//	                Pstatement.setString(6,cityTextField.getText());
+//	                Pstatement.setString(7,emailTextField.getText());
+//	                Pstatement.setString(8,POBTextField.getText());
+//	                if(passwordField.getText().equalsIgnoreCase(confirmPasswordField.getText()))
+//	                {
+//
+//	                    Pstatement.executeUpdate();
+//	                    JOptionPane.showMessageDialog(null,"Data Registered Successfully");
+//	                }
+//	                else
+//	                {
+//	                    JOptionPane.showMessageDialog(null,"password did not match");
+//	                }
+//
+//	            } catch (SQLException e1) {
+//	                e1.printStackTrace();
+//	            } catch (ClassNotFoundException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+//
+//
+//	        }
+//	        if(e.getSource()==resetButton)
+//	        {
+//	            fnameTextField.setText("");
+//	            lnameTextField.setText("");
+//	            genderComboBox.setSelectedItem("Male");
+//	            countryComboBox.setSelectedItem("");
+//	            StreetTextField.setText("");
+//	            POBTextField.setText("");
+//	            passwordField.setText("");
+//	            confirmPasswordField.setText("");
+//	            cityTextField.setText("");
+//	            emailTextField.setText("");
+//	            confirmEmailTextField.setText("");
+//	        }
+//
 	    }
 	}
 	

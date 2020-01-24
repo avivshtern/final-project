@@ -29,7 +29,7 @@ public class Client{
 		setSubscriptionType(subscriptionType);
 	}
 	
-	Client(String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber, int clientID, Date dateOfRegistration)
+	Client(String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber, int clientID, Date dateOfRegistration, eSubscriptionType subscriptionType)
 	{
 		setName(firstName, lastName);
 		setAddress(cityName, streetName, streetNum);

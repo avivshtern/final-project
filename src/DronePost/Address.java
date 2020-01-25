@@ -16,6 +16,11 @@ public class Address {
 		setStreetNum(streetNum);
 	}
 	
+	public String addressToString ()
+	{
+		return (cityName+", "+streetName+", "+streetNum);
+	}
+	
 	public void setCityName(String cityName)
 	{
 		this.cityName=cityName;

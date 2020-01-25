@@ -2,7 +2,8 @@ package DronePost;
 
 public class Drone {
 	
-	private static final int MISSION_TIME_IN_MS = 5000;
+	private static final int ARRIVING_TO_REQUESTING_CLIENT_TIME_IN_MS = 5000;	
+	private static final int ARRIVING_TO_DESTINED_CLIENT_TIME_IN_MS = 5000;
 	private static final int MAX_FLIGHT_TIME_IN_HOURS = 3;
 	
 	private int droneID;
@@ -12,43 +13,17 @@ public class Drone {
 	private Client requestingClient;
 	private Client destinedClient;
 	private Address startingAddress;
-	private Address destenationAddress;
-	private Message messageType;
-	
+	private Address destenationAddress;	
 	
 	Drone()
 	{}
-	
-	Drone (int droneID, boolean isAvailable, int batteryLifePercentage, Order currentOrder, Client requestingClient, Client destinedClient, Address startingAddress, Address destenationAddress, Message messageType)
-	{
-		setDroneID(droneID);
-		setIsAvailable(isAvailable);
-		setBatteryLifePercentage(100);
-		setCurrentOrder(currentOrder);
-		setRequestingClient(requestingClient);
-		setDestinedClient(destinedClient);
-		setStartingAddress(startingAddress);
-		setDestinedClient(destinedClient);
-		setMessageType(messageType);
-	}
-	
-	Drone (int droneID, boolean isAvailable, Order currentOrder)
-	{
-		setDroneID(droneID);
-		setIsAvailable(isAvailable);
-		setBatteryLifePercentage(100);
-		setCurrentOrder(currentOrder);
-		requestingClient=currentOrder.getRequestingClient();
-		destinedClient=currentOrder.getDestinedClient();
-		startingAddress=requestingClient.getAddress();
-		destenationAddress=destinedClient.getAddress();
-	}
 
 	Drone (int droneID)
 	{
 		setDroneID(droneID);
 		isAvailable=true;
 		batteryLifePercentage=100;
+		System.out.println("Drone added successfuly. Drone ID:\n"+ droneID);
 	}
 	
 	public void setForOrder(Order currentOrder)
@@ -58,22 +33,34 @@ public class Drone {
 		destinedClient=currentOrder.getDestinedClient();
 		startingAddress=requestingClient.getAddress();
 		destenationAddress=destinedClient.getAddress();
-
 		isAvailable=false;
+		System.out.println("Drone is ready for mission, from" + requestingClient.getName() + ", at the address "+ startingAddress.addressToString()+ "\nto " + destinedClient.getName() + ", at the address "+ destenationAddress.addressToString());
+		//arriving to requesting client
 		new java.util.Timer().schedule( 
 		        new java.util.TimerTask() {
 		            @Override
 		            public void run() {
-		                isAvailable=true;
-		                batteryLifePercentage = batteryLifePercentage-MISSION_TIME_IN_MS/(MAX_FLIGHT_TIME_IN_HOURS*60*60*100);
+		            	Message arrivalMessage = new Message(requestingClient.getPhoneNum(), "Drone is here to pick up the package from " + requestingClient.getName() + ", at the address "+ startingAddress.addressToString()+ "\nto " + destinedClient.getName() + ", at the address "+ destenationAddress.addressToString());
+		            }
+		        }, 
+		        ARRIVING_TO_REQUESTING_CLIENT_TIME_IN_MS 
+		);
+		//arriving to destined client  
+		new java.util.Timer().schedule( 
+		        new java.util.TimerTask() {
+		            @Override
+		            public void run() {
+		            	Message arrivalMessage = new Message(requestingClient.getPhoneNum(), "Package arrived successfuly to" + destinedClient.getName() + ", at the address "+ destenationAddress.addressToString());
+		            	Message destinedClientMessage = new Message (destinedClient.getPhoneNum(), "Package arrived to you from "+requestingClient.getName());
+		            	isAvailable=true;
+		                batteryLifePercentage = batteryLifePercentage-(ARRIVING_TO_DESTINED_CLIENT_TIME_IN_MS+ARRIVING_TO_REQUESTING_CLIENT_TIME_IN_MS)/(MAX_FLIGHT_TIME_IN_HOURS*60*60*100);
 		                if (batteryLifePercentage<=0)
 		                {
 		                	batteryLifePercentage=100;//simulates charging
 		                }
-		                
 		            }
 		        }, 
-		        MISSION_TIME_IN_MS 
+		        ARRIVING_TO_DESTINED_CLIENT_TIME_IN_MS 
 		);
 		
 	}
@@ -117,12 +104,7 @@ public class Drone {
 	{
 		this.destenationAddress=destenationAddress;
 	}
-	
-	public void setMessageType (Message messageType)
-	{
-		this.messageType=messageType;
-	}
-	
+		
 	public int getDroneID()
 	{
 		return droneID;
@@ -162,11 +144,6 @@ public class Drone {
 	public Address getDestenationAddress ()
 	{
 		return destenationAddress;
-	}
-	
-	public Message getMessageType ()
-	{
-		return messageType;
 	}
 
 }

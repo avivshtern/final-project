@@ -7,7 +7,8 @@ public class UIMain {
 	}
 
 	public static void main(String[] args) {
-		RegistrationForm form = new RegistrationForm();
+		 new RegistrationForm();
+//		 new DroneOrderForm();
 
 	}
 

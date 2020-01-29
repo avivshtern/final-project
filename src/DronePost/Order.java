@@ -20,6 +20,12 @@ public class Order{
 		setDestinedClient(destinedClient);
 		setDateCreated(dateCreated);
 		setMissionDrone(missionDrone);
+		System.out.println("Order set successfuly. Order details:\n"+orderToString());
+	}
+	
+	public String orderToString()
+	{
+		return ("Order Number: "+ orderNum+"\nRequesting client: "+requestingClient.clientToString()+ "\nDestined client: "+requestingClient.clientToString()+"\nDate created:"+ dateCreated+"/nDrone ID:"+ missionDrone.getDroneID());
 	}
 	
 	public void setOrderNum(int orderNum)

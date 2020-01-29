@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Client{
-
+	
+	private static final int MONTH_IN_MS = 2592000000; // if a true month wanted, should be 2592000000
+	
 	private String firstName;
 	private String lastName;
 	private Address address;
-	private String phoneNumber; // used string because wanted to keep 0 at the beginning
+	private String phoneNumber; // used string to keep 0 at the beginning
 	private int clientID;
 	private static eSubscriptionType subscriptionType;
 	private int numOfShipmentsLeft;
@@ -19,16 +21,6 @@ public class Client{
 	Client()
 	{}
 	
-	Client(String firstName, String lastName, Address address, String phoneNumber, int clientID, Date dateOfRegistration, eSubscriptionType subscriptionType)
-	{
-		setName(firstName, lastName);
-		setAddress(address);
-		setPhoneNumber(phoneNumber);
-		setClientID(clientID);
-		setDateOfRegistration(dateOfRegistration);
-		setSubscriptionType(subscriptionType);
-	}
-	
 	Client(String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber, int clientID, Date dateOfRegistration, eSubscriptionType subscriptionType)
 	{
 		setName(firstName, lastName);
@@ -36,6 +28,12 @@ public class Client{
 		setPhoneNumber(phoneNumber);
 		setClientID(clientID);
 		setDateOfRegistration(dateOfRegistration);
+		System.out.println("Client set successfuly. Client details:\n"+clientToString());
+	}
+	
+	public String clientToString ()
+	{
+		return ("Client name: "+ firstName + " "+lastName+"\nClient Address: "+ address.addressToString() + "\nClient phone nubmber: "+phoneNumber+"\nClient ID: "+ clientID+ "\nClient date of registration:" + dateOfRegistration + "\nClient orders left: "+numOfShipmentsLeft);
 	}
 	
 	public void setSubscriptionType (eSubscriptionType subscriptionType)
@@ -49,15 +47,23 @@ public class Client{
 		{
 			numOfShipmentsLeft=50;
 		}
+		if (subscriptionType==eSubscriptionType.MONTHLY)
+		{
+			numOfShipmentsLeft=10000;
+			new java.util.Timer().schedule( 
+			        new java.util.TimerTask() {
+			            @Override
+			            public void run() {
+			            	numOfShipmentsLeft=0;
+			            }
+			        }, 
+			        MONTH_IN_MS 
+			);
+		}
 	}
 	
 	public void addNewOrder(Order order)
 	{
-	/*	if (numOfShipmentsLeft==0)
-		{
-			break;	
-		}
-	*/
 		clientOrderList.ensureCapacity(clientOrderList.size()+1);
 		clientOrderList.add(order);
 		numOfShipmentsLeft--;
@@ -142,6 +148,11 @@ public class Client{
 	public eSubscriptionType getSubscriptionType()
 	{
 		return subscriptionType;
+	}
+	
+	public int getNumOfShipmentsLeft()
+	{
+		return numOfShipmentsLeft;
 	}
 	
 }

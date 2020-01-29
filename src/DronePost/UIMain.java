@@ -9,7 +9,7 @@ public class UIMain {
 	public static void main(String[] args) {
 		 new RegistrationForm();
 //		 new DroneOrderForm();
-
+//		new appRouter(); 
 	}
 
 }

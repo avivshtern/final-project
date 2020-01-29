@@ -1,7 +1,4 @@
 package DronePost;
-
- 
-
 import javax.swing.*;
 
 import java.awt.*;
@@ -11,13 +8,10 @@ import java.awt.event.*;
  
 
 public class DroneOrderForm extends JFrame {
-
  
   private JButton btnSend  = new JButton("Order");
 
   private JButton btnClear = new JButton("Clear");
-
- 
 
   private JTextField txtPickup = new JTextField();
 
@@ -55,45 +49,26 @@ public class DroneOrderForm extends JFrame {
 
   private JLabel lblB = new JLabel("City:");
 
-  private JLabel lblC = new JLabel("Adress:");
+  private JLabel lblC = new JLabel("Address:");
 
   private JLabel lblD = new JLabel("Zip Code:");
 
- 
-
   public DroneOrderForm(){
-
     setTitle("Shipping Ordering Form");
-
     setSize(600,350);
-
     setLocation(new Point(350,300));
-
     setLayout(null);   
-
+    setVisible(true);
     setResizable(false);
-
- 
-
     initComponent();   
-
     initEvent();   
-
   }
-
- 
 
   private void initComponent(){
 
     btnSend.setBounds(300,230, 80,25);
 
     btnClear.setBounds(400,230, 110,25);
-
- 
-
-   
-
-    
 
     txtA.setBounds(150,25,100,20);
 
@@ -115,8 +90,6 @@ public class DroneOrderForm extends JFrame {
 
     txtRes.setBounds(350,145,100,20);
 
- 
-
     lblA.setBounds(20,25,100,20);
 
     lblB.setBounds(20,55,100,20);
@@ -133,13 +106,9 @@ public class DroneOrderForm extends JFrame {
 
     lblRes.setBounds(280,145,100,20);
 
- 
-
     add(btnSend);
 
     add(btnClear);
-
- 
 
     add(lblA);
 
@@ -157,8 +126,6 @@ public class DroneOrderForm extends JFrame {
 
     add(lblRes);
 
-   
-
     add(txtA);
 
     add(txtB);
@@ -168,8 +135,6 @@ public class DroneOrderForm extends JFrame {
     add(txtD);
 
     add(txtSender);
-
-   
 
     add(txtA1);
 
@@ -183,17 +148,13 @@ public class DroneOrderForm extends JFrame {
 
   }
 
- 
-
   private void initEvent(){
-
- 
 
     this.addWindowListener(new WindowAdapter() {
 
-      public void windowClosing(WindowEvent e){
+     public void windowClosing(WindowEvent e){
 
-       System.exit(1);
+     System.exit(1);
 
       }
 
@@ -237,39 +198,39 @@ public class DroneOrderForm extends JFrame {
 
   private void btnClearClick(ActionEvent evt){
 
-  
-
-    try{
-
-               
-
-            txtA.setText("");
-
-            txtB.setText("");
-
-            txtC.setText("");
-
-            txtD.setText("");
-
-            txtSender.setText("");
-
-       
-
- 
-
-    }catch(Exception e){
-
-      System.out.println(e);
-
-      JOptionPane.showMessageDialog(null,
-
-          e.toString(),
-
-          "Error",
-
-          JOptionPane.ERROR_MESSAGE);
-
-    }
+//  
+//
+//    try{
+//
+//               
+//
+//            txtA.setText("");
+//
+//            txtB.setText("");
+//
+//            txtC.setText("");
+//
+//            txtD.setText("");
+//
+//            txtSender.setText("");
+//
+//       
+//
+// 
+//
+//    }catch(Exception e){
+//
+//      System.out.println(e);
+//
+//      JOptionPane.showMessageDialog(null,
+//
+//          e.toString(),
+//
+//          "Error",
+//
+//          JOptionPane.ERROR_MESSAGE);
+//
+//    }
 
   }
 

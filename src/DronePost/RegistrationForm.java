@@ -39,13 +39,19 @@ import java.awt.*;
 	    JPanel PSubscriptionTypeContainer;
 	    JPanel buttonPane;
 	    
+	    JPanel appheader = headerContainer(new JLabel ("Welcome to Drone Post"), 24);
+	    JPanel appDescription = headerContainer(new JLabel ("Enter the following information to signup"), 18);
 	    JLabel addressLabel = new JLabel ("Address");
-	    JPanel addressheader = headerContainer(addressLabel);
+	    JPanel addressheader = headerContainer(addressLabel, 15);
 	    
 	    JPanel Subscriptionheader = CreatSubscriptionText();
 
-	    RegistrationForm()
+	    DroneSystem droneSystem;
+	    
+	    RegistrationForm(DroneSystem droneSystem)
 	    {
+	    	super();
+	    	this.droneSystem = droneSystem;
 	    	setFreamIcon();
 	        createWindow();
 	        setLocationAndSize();
@@ -91,9 +97,12 @@ import java.awt.*;
 	    	buttonPane.add(resetButton);
 	    	buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
 	    	buttonPane.add(registerButton);
+	    	
 	    }
 	    public void addComponentsToFrame()
 	    {
+	    	frame.add(appheader);
+	    	frame.add(appDescription);
 	    	frame.add(PnameContainer);
 	    	frame.add(addressheader);
 	        frame.add(PAddressContainer);
@@ -134,10 +143,11 @@ import java.awt.*;
 	    	return PanelContainer;
 	    }
 	    
-	    private JPanel headerContainer(JLabel label) {
+	    private JPanel headerContainer(JLabel label, int size) {
 	    	JPanel PanelContainer = new JPanel(new FlowLayout(0, 30, 0) );
 	    	PanelContainer.setMaximumSize(new Dimension(Short.MAX_VALUE, 20));
-	    	label.setPreferredSize(new Dimension(900,20));
+	    	label.setPreferredSize(new Dimension(900,25));
+	    	label.setFont(new Font("Serif", Font.BOLD, size));
 	    	PanelContainer.add(label);
 	    	return PanelContainer;
 	    }
@@ -163,6 +173,12 @@ import java.awt.*;
 		    PanelContainer.add(PanelContant);
 		    
 	    	return PanelContainer;
+	    }
+	    
+	    private JLabel PageHeader() {
+	    	 JLabel label = new JLabel ("Drone Post");
+	    	 label.setFont(new Font("Serif", Font.BOLD, 24));
+			 return label;
 	    }
 	    
 	    public void actionEvent()
@@ -204,18 +220,18 @@ import java.awt.*;
 	    public void actionPerformed(ActionEvent e) {
 	    	String buttontText = e.getActionCommand();
 	    	if(buttontText == "Register") {
-	    		System.out.println("Register");
 	    		boolean isFormValid = ChackFormValidation(); 
 	    		if(isFormValid) { 
-//	    		String serlectedItem = subscriptionTypeComboBox.getSelectedItem().toString();
-//	    		new Client(fnameTextField.getText(),
-//	    				lnameTextField.getText(),
-//	    				cityTextField.getText(),
-//	    				StreetTextField.getText(),
-//	    				streetNumTextField.getText(),
-//	    				phoneNumber.getText(),
-//	    				 getSubscriptionEnum(serlectedItem)	    			
-//	    				);
+    			System.out.println("Register");
+	    		String serlectedItem = subscriptionTypeComboBox.getSelectedItem().toString();
+	    		this.droneSystem.addClient(fnameTextField.getText(),
+	    				lnameTextField.getText(),
+	    				cityTextField.getText(),
+	    				StreetTextField.getText(),
+	    				Integer.parseInt(streetNumTextField.getText()),
+	    				phoneNumber.getText(),
+	    				 getSubscriptionEnum(serlectedItem)	    			
+	    				);
 	    		
 	    			
 	    		}

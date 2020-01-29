@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Client{
 	
-	private static final int MONTH_IN_MS = 2592000000; // if a true month wanted, should be 2592000000
+	private static final int MONTH_IN_MS = 259200000; // if a true month wanted, should be 2592000000
 	
 	private String firstName;
 	private String lastName;

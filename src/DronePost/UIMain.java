@@ -7,7 +7,10 @@ public class UIMain {
 	}
 
 	public static void main(String[] args) {
-		 new RegistrationForm();
+		
+		DroneSystem droneSystem = new DroneSystem();
+		
+		 new RegistrationForm(droneSystem);
 //		 new DroneOrderForm();
 //		new appRouter(); 
 	}

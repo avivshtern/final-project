@@ -53,7 +53,11 @@ public class DroneOrderForm extends JFrame {
 
   private JLabel lblD = new JLabel("Zip Code:");
 
-  public DroneOrderForm(){
+  DroneSystem droneSystem;
+
+  public DroneOrderForm(DroneSystem droneSystem){
+    super();
+    this.droneSystem = droneSystem;
     setTitle("Shipping Ordering Form");
     setSize(600,350);
     setLocation(new Point(350,300));
@@ -197,40 +201,6 @@ public class DroneOrderForm extends JFrame {
  
 
   private void btnClearClick(ActionEvent evt){
-
-//  
-//
-//    try{
-//
-//               
-//
-//            txtA.setText("");
-//
-//            txtB.setText("");
-//
-//            txtC.setText("");
-//
-//            txtD.setText("");
-//
-//            txtSender.setText("");
-//
-//       
-//
-// 
-//
-//    }catch(Exception e){
-//
-//      System.out.println(e);
-//
-//      JOptionPane.showMessageDialog(null,
-//
-//          e.toString(),
-//
-//          "Error",
-//
-//          JOptionPane.ERROR_MESSAGE);
-//
-//    }
 
   }
 

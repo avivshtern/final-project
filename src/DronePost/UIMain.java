@@ -10,8 +10,8 @@ public class UIMain {
 		
 		DroneSystem droneSystem = new DroneSystem();
 		
-		 new RegistrationForm(droneSystem);
-//		 new DroneOrderForm();
+		//  new RegistrationForm(droneSystem);
+		 new DroneOrderForm(droneSystem);
 //		new appRouter(); 
 	}
 

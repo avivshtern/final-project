@@ -62,7 +62,7 @@ import java.awt.*;
 	    {
 	    	frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.PAGE_AXIS));
 	        frame.setTitle("Registration Form");
-	        frame.setBounds(120,120,900,400);
+	        frame.setBounds(120,120,900,500);
 	        frame.setVisible(true);
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame.setResizable(false);
@@ -232,7 +232,7 @@ import java.awt.*;
 	    				phoneNumber.getText(),
 	    				 getSubscriptionEnum(serlectedItem)	    			
 	    				);
-	    		
+	    		// new DroneOrderForm();
 	    			
 	    		}
 	    	}else if(buttontText == "Reset") {

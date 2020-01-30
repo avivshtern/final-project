@@ -232,7 +232,7 @@ import java.awt.*;
 	    				phoneNumber.getText(),
 	    				 getSubscriptionEnum(serlectedItem)	    			
 	    				);
-	    		// new DroneOrderForm();
+	    		 new DroneOrderForm(this.droneSystem);
 	    			
 	    		}
 	    	}else if(buttontText == "Reset") {

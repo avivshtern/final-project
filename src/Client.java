@@ -1,11 +1,9 @@
-package DronePost;
 
+import java.time.*;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 public class Client{
-	
-	private static final int MONTH_IN_MS = 2592000000; // if a true month wanted, should be 2592000000
 	
 	private String firstName;
 	private String lastName;
@@ -14,21 +12,23 @@ public class Client{
 	private int clientID;
 	private static eSubscriptionType subscriptionType;
 	private int numOfShipmentsLeft;
-	private Date dateOfRegistration;
+	private LocalDate dateOfRegistration;
+	private LocalDate dateOfPayment;
 	
-	private ArrayList<Order> clientOrderList = new ArrayList<Order>(0);
+	public ArrayList<Order> clientOrderList = new ArrayList<Order>(0);
 	
 	Client()
 	{}
 	
-	Client(String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber, int clientID, Date dateOfRegistration, eSubscriptionType subscriptionType)
+	Client(String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber, int clientID, eSubscriptionType subscriptionType)
 	{
 		setName(firstName, lastName);
 		setAddress(cityName, streetName, streetNum);
 		setPhoneNumber(phoneNumber);
 		setClientID(clientID);
-		setDateOfRegistration(dateOfRegistration);
-		System.out.println("Client set successfuly. Client details:\n"+clientToString());
+		this.dateOfRegistration=LocalDate.now();
+		dateOfPayment=dateOfRegistration;
+		setSubscriptionType(subscriptionType);
 	}
 	
 	public String clientToString ()
@@ -50,15 +50,6 @@ public class Client{
 		if (subscriptionType==eSubscriptionType.MONTHLY)
 		{
 			numOfShipmentsLeft=10000;
-			new java.util.Timer().schedule( 
-			        new java.util.TimerTask() {
-			            @Override
-			            public void run() {
-			            	numOfShipmentsLeft=0;
-			            }
-			        }, 
-			        MONTH_IN_MS 
-			);
 		}
 	}
 	
@@ -99,15 +90,24 @@ public class Client{
 	{
 		this.phoneNumber=phoneNumber;
 	}
-	
 	public void setClientID (int clientID)
 	{
 		this.clientID=clientID;
 	}
 
-	public void setDateOfRegistration(Date dateOfRegistration)
+	public void setDateOfRegistration(LocalDate dateOfRegistration)
 	{
 		this.dateOfRegistration=dateOfRegistration;		
+	}
+	
+	public void setDateOfPayment(LocalDate dateOfPayment)
+	{
+		this.dateOfPayment=dateOfPayment;		
+	}
+
+	public void setNumOfShipmentsLeft(int numOfShipmentsLeft)
+	{
+		this.numOfShipmentsLeft= numOfShipmentsLeft;
 	}
 	
 	public String getName()
@@ -140,9 +140,14 @@ public class Client{
 		return clientID;
 	}
 	
-	public Date getDateOfRegistration()
+	public LocalDate getDateOfRegistration()
 	{
 		return dateOfRegistration;
+	}
+	
+	public LocalDate getDateOfPayment()
+	{
+		return dateOfPayment;
 	}
 	
 	public eSubscriptionType getSubscriptionType()

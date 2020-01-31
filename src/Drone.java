@@ -1,9 +1,9 @@
-package DronePost;
+
 
 public class Drone {
 	
 	private static final int ARRIVING_TO_REQUESTING_CLIENT_TIME_IN_MS = 5000;	
-	private static final int ARRIVING_TO_DESTINED_CLIENT_TIME_IN_MS = 5000;
+	private static final int ARRIVING_TO_DESTINED_CLIENT_TIME_IN_MS = 10000;
 	private static final int MAX_FLIGHT_TIME_IN_HOURS = 3;
 	
 	private int droneID;
@@ -13,7 +13,7 @@ public class Drone {
 	private Client requestingClient;
 	private Client destinedClient;
 	private Address startingAddress;
-	private Address destenationAddress;	
+	private Address destenationAddress;
 	
 	Drone()
 	{}
@@ -26,7 +26,7 @@ public class Drone {
 		System.out.println("Drone added successfuly. Drone ID:\n"+ droneID);
 	}
 	
-	public void setForOrder(Order currentOrder)
+	public void setForMission(Order currentOrder)
 	{
 		setCurrentOrder(currentOrder);
 		requestingClient=currentOrder.getRequestingClient();
@@ -34,7 +34,7 @@ public class Drone {
 		startingAddress=requestingClient.getAddress();
 		destenationAddress=destinedClient.getAddress();
 		isAvailable=false;
-		System.out.println("Drone is ready for mission, from" + requestingClient.getName() + ", at the address "+ startingAddress.addressToString()+ "\nto " + destinedClient.getName() + ", at the address "+ destenationAddress.addressToString());
+		System.out.println("Drone is ready for mission, from " + requestingClient.getName() + ", at the address "+ startingAddress.addressToString()+ "\nto " + destinedClient.getName() + ", at the address "+ destenationAddress.addressToString());
 		//arriving to requesting client
 		new java.util.Timer().schedule( 
 		        new java.util.TimerTask() {
@@ -50,7 +50,7 @@ public class Drone {
 		        new java.util.TimerTask() {
 		            @Override
 		            public void run() {
-		            	Message arrivalMessage = new Message(requestingClient.getPhoneNum(), "Package arrived successfuly to" + destinedClient.getName() + ", at the address "+ destenationAddress.addressToString());
+		            	Message arrivalMessage = new Message(requestingClient.getPhoneNum(), "Package arrived successfuly to " + destinedClient.getName() + ", at the address "+ destenationAddress.addressToString());
 		            	Message destinedClientMessage = new Message (destinedClient.getPhoneNum(), "Package arrived to you from "+requestingClient.getName());
 		            	isAvailable=true;
 		                batteryLifePercentage = batteryLifePercentage-(ARRIVING_TO_DESTINED_CLIENT_TIME_IN_MS+ARRIVING_TO_REQUESTING_CLIENT_TIME_IN_MS)/(MAX_FLIGHT_TIME_IN_HOURS*60*60*100);

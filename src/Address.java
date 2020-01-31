@@ -1,4 +1,4 @@
-package DronePost;
+
 
 public class Address {
 
@@ -18,7 +18,7 @@ public class Address {
 	
 	public String addressToString ()
 	{
-		return (cityName+", "+streetName+", "+streetNum);
+		return (cityName+", "+streetName+" "+streetNum);
 	}
 	
 	public void setCityName(String cityName)

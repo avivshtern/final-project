@@ -1,31 +1,30 @@
-package DronePost;
 
-import java.util.Date;
+
+import java.time.*;
 
 public class Order{
 
 	private int orderNum;
 	private Client requestingClient;
 	private Client destinedClient;
-	private Date dateCreated;
+	private LocalDate dateCreated;
 	private Drone missionDrone;
 	
 	Order()
 	{}
 	
-	Order(int orderNum, Client requestingClient, Client destinedClient, Date dateCreated, Drone missionDrone)
+	Order(int orderNum, Client requestingClient, Client destinedClient, Drone missionDrone)
 	{
 		setOrderNum(orderNum);
 		setRequestingClient(requestingClient);
 		setDestinedClient(destinedClient);
-		setDateCreated(dateCreated);
+		setDateCreated(LocalDate.now());
 		setMissionDrone(missionDrone);
-		System.out.println("Order set successfuly. Order details:\n"+orderToString());
 	}
 	
 	public String orderToString()
 	{
-		return ("Order Number: "+ orderNum+"\nRequesting client: "+requestingClient.clientToString()+ "\nDestined client: "+requestingClient.clientToString()+"\nDate created:"+ dateCreated+"/nDrone ID:"+ missionDrone.getDroneID());
+		return ("Order Number: "+ orderNum+"\nRequesting client: "+requestingClient.clientToString()+ "\nDestined client: "+destinedClient.clientToString()+"\nDate created:"+ dateCreated+"\nDrone ID:"+ missionDrone.getDroneID());
 	}
 	
 	public void setOrderNum(int orderNum)
@@ -43,7 +42,7 @@ public class Order{
 		this.destinedClient=destinedClient;
 	}
 	
-	public void setDateCreated (Date dateCreated)
+	public void setDateCreated (LocalDate dateCreated)
 	{
 		this.dateCreated=dateCreated;
 	}
@@ -68,7 +67,7 @@ public class Order{
 		return destinedClient;
 	}
 	
-	public Date getDateCreated()
+	public LocalDate getDateCreated()
 	{
 		return dateCreated;
 	}

@@ -1,4 +1,4 @@
-package DronePost;
+
 
 public class Message {
 	private String messageContent;

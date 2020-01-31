@@ -1,5 +1,7 @@
 package DronePost;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 
 import java.awt.*;
 
@@ -21,7 +23,7 @@ public class DroneOrderForm extends JFrame {
     setTitle("Shipping Ordering Form");
     setFreamIcon();
     setBounds(800,10,600,800);
-    setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));   
+    setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));   
     setVisible(true);
     setResizable(false);
     initComponent();   
@@ -55,12 +57,24 @@ public class DroneOrderForm extends JFrame {
   private void initComponent(){
 	  this.add(PageHeader("Select a User to send to"));
 	  
-	  this.add(clientCard(this.clients.get(0)));
+	  this.add(creatClientList(this.clients));
+	  
+	  
+  }
+  
+  
+  private JPanel creatClientList(ArrayList<Client> clients){
+	  JPanel clientList  =  new JPanel ();
+	  for(int i = 0; i < clients.size(); i++ ) {
+		  clientList.add(clientCard(clients.get(i)));
+	  }
+	  return clientList;
   }
   
   private JLabel PageHeader(String str) {
  	 JLabel label = new JLabel (str);
  	 label.setFont(new Font("Serif", Font.BOLD, 24));
+ 	 label.setPreferredSize(new Dimension(100, 50));
 		 return label;
  }
   
@@ -69,7 +83,24 @@ public class DroneOrderForm extends JFrame {
 	 Ccard.setLayout(new BoxLayout(Ccard, BoxLayout.PAGE_AXIS));
 	 Ccard.add(new JLabel (client.getName()));
 	 Ccard.add(new JLabel (client.getAddress().toString()));
-	 return Ccard;
+	 Ccard.setPreferredSize(new Dimension(300, 50));
+	 JPanel paddingPanel = panelWithPadding(10,10,10,10);
+	 paddingPanel.add(Ccard);
+	 JPanel borderPanel =  panelWithBorder(1,11,1,1,Color.lightGray);
+	 borderPanel.add(paddingPanel);
+	 return borderPanel;
+ }
+  
+  private JPanel panelWithPadding(int top, int left ,int buttom, int right) {
+	 JPanel paddingPanel = new JPanel ();
+	 paddingPanel.setBorder(new EmptyBorder(top, left, buttom, right));
+	 return paddingPanel;
+ }
+  
+  private JPanel panelWithBorder(int top, int left ,int buttom, int right,  Color matteColor ) {
+	 JPanel borderPanel = new JPanel ();
+	 borderPanel.setBorder(new MatteBorder(top, left, buttom, right, matteColor));
+	 return borderPanel;
  }
   
 }

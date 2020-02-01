@@ -44,7 +44,7 @@ public class DroneSystem {
 		return findAvailableDrone(); // will look for an available drone until found one
 	}
 	
-	public void addOrder (int requestingClientID, int destinedClientID)
+	public String addOrder (int requestingClientID, int destinedClientID)
 	{
 		Client requestingClient = clientList.get(requestingClientID);
 		Client destinedClient = clientList.get(destinedClientID);
@@ -53,8 +53,9 @@ public class DroneSystem {
 			Period period = Period.between(LocalDate.now(), requestingClient.getDateOfPayment());
 				if (requestingClient.getSubscriptionType()!=eSubscriptionType.MONTHLY || (requestingClient.getSubscriptionType()==eSubscriptionType.MONTHLY && period.getDays()>=30)) 
 				{
-					System.out.println("can not make new order, the client needs to choose new subscription type and set the order again");
-					return;
+					String message = "can not make new order, the client needs to choose new subscription type and set the order again";
+					System.out.println(message);
+					return message;
 				}
 				if (requestingClient.getSubscriptionType()==eSubscriptionType.MONTHLY && period.getDays()<=30)
 				{
@@ -67,7 +68,11 @@ public class DroneSystem {
 		orderList.add(currentOrder);
 		currentDrone.setForMission(currentOrder);
 		requestingClient.addNewOrder(currentOrder);
-		System.out.println("Order added successfuly. Order details:\n"+ currentOrder.orderToString());
+		
+		String message = "Order added successfuly. Order details:\n from: " + currentDrone.getRequestingClient().getName() + ", "+ currentDrone.getRequestingClient().getAddress() +
+				"\n to: " + currentOrder.getDestinedClient().getName() + ", " + currentOrder.getDestinedClient().getAddress();
+		System.out.println(message);
+		return message;
 	}
 	
 	public ArrayList getClientIDList ()

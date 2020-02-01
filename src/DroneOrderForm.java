@@ -21,6 +21,9 @@ public class DroneOrderForm extends JFrame implements ActionListener {
   JPanel resultBox = new JPanel (); 
   Client selectedClient;
   
+  String message;
+  JPanel messageBox = new JPanel();
+  
   public DroneOrderForm(DroneSystem droneSystem, Client user){
     super();
     this.droneSystem = droneSystem;
@@ -70,6 +73,7 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	  this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 	  this.add(PageHeader("Hallow "+ user.getName(), "Select a clients from the list..."));
 	  this.add(resultBox);
+	  this.add(messageBox);
 	  this.add(creatClientList(this.clients));  
   }
   
@@ -130,8 +134,16 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	 return borderPanel;
  }
   
+  private void showMessage() {
+	  messageBox.removeAll();
+	 JLabel messageLabel = new JLabel("<html>"+message+"</html>");
+	 messageLabel.setPreferredSize(new Dimension(400, 40));
+	  messageBox.add(messageLabel);
+	  messageBox.validate();
+	  messageBox.repaint();
+  }
+  
   private  Client getClientByID(int id) {
-//	  boolean isFound = false;
 	  for( int i = 0; i< clients.size() ; i++) {
 		 Client client = clients.get(i);
 		  if(client.getClientID() == id) {
@@ -147,8 +159,8 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	  	System.out.println(e.getActionCommand());
 	  	if(e.getActionCommand() == "Send Delivery") {
 	  		
-	  		droneSystem.addOrder(user.getClientID(), selectedClient.getClientID());
-	  		
+	  	message = droneSystem.addOrder(user.getClientID(), selectedClient.getClientID());
+	  	showMessage();
 	  	}else {
 	  		int id = Integer.parseInt(e.getActionCommand());
 	  		selectedClient = getClientByID(id);

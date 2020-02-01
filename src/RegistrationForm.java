@@ -30,6 +30,7 @@ import java.awt.*;
 
 		JButton registerButton=new JButton("Register");
 	    JButton resetButton=new JButton("Reset");
+	    JButton logInButton=new JButton("LogIn");
 	    JButton orderButton=new JButton("Order");
 	    
 	    
@@ -96,7 +97,9 @@ import java.awt.*;
 	    	buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
 	    	buttonPane.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 20));
 	    	buttonPane.add(Box.createHorizontalGlue());
-
+	    	
+	    	buttonPane.add(logInButton);
+	    	buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
 	    	buttonPane.add(resetButton);
 	    	buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
 	    	buttonPane.add(registerButton);
@@ -188,6 +191,7 @@ import java.awt.*;
 	    {
 	        registerButton.addActionListener(this);
 	        resetButton.addActionListener(this);
+	        logInButton.addActionListener(this);
 	    }
 	    
 	    boolean ChackFormValidation(){
@@ -263,6 +267,9 @@ import java.awt.*;
 	    	}else if(buttontText == "Order") {	 
 	    		System.out.println(buttontText);
     			new DroneOrderForm(this.droneSystem, currentClient);
+	    	}else if(buttontText == "LogIn") {	 
+	    		System.out.println(buttontText);
+    			new SignIn(this.droneSystem);
 	    	}
 	    }
 	}

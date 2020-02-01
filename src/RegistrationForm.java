@@ -243,7 +243,7 @@ import java.awt.*;
 	    				);
 	    		 resetFileds();
 	    		 addOrderBtn();
-	    			
+	    		 new ClientIDBox(droneSystem);
 	    		}
 	    	}else if(buttontText == "Reset") {
 	    		System.out.println("Reset");

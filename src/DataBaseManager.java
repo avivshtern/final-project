@@ -39,7 +39,11 @@ public class DataBaseManager
 		String phoneNumber=client.getPhoneNum();
 		eSubscriptionType subscriptionType=client.getSubscriptionType();
 		int numOfShipmentsLeft=client.getNumOfShipmentsLeft();
+<<<<<<< HEAD
 		Date dateOfRegistration=Date.valueOf(client.getDateOfRegistration());
+=======
+//		LocalDateTime dateOfRegistration=client.getDateOfRegistration();
+>>>>>>> 8c20fa585ec9c634a9f9d00a4f22ff8981ee1f74
 
 		String query = " insert into clients (clientID, firstName, lastName, phoneNumber, subscriptionType, numOfShipmentsLeft, dateOfRegistration)" + " values (?,?,?,?,?,?,?)";
 		PreparedStatement preparedStmt = connSubscriberDb.prepareStatement(query);
@@ -49,7 +53,7 @@ public class DataBaseManager
 		preparedStmt.setString (4, phoneNumber);
 		preparedStmt.setInt (5, subscriptionType.ordinal());
 		preparedStmt.setInt (6, numOfShipmentsLeft);
-		preparedStmt.setDate (7, dateOfRegistration);
+//		preparedStmt.setDate (7, dateOfRegistration);
 		preparedStmt.execute();
 		
 		String cityName=client.getAddress().getCityName();
@@ -128,7 +132,11 @@ public class DataBaseManager
 		int requestingClient=order.getRequestingClient().getClientID();
 		int destinedClient=order.getDestinedClient().getClientID();
 		int missionDrone=order.getMissionDrone().getDroneID();
+<<<<<<< HEAD
 		Date dateCreated=Date.valueOf(order.getDateCreated());
+=======
+//		java.sql.Date dateCreated=order.getDateCreated();
+>>>>>>> 8c20fa585ec9c634a9f9d00a4f22ff8981ee1f74
 		
 		String query = " insert into orders (orderNum, requestingClient_fk, destinedClient_fk, missionDrone_fk, dateCreated)" + " values (?,?,?,?,?)";
 		PreparedStatement preparedStmt = connSubscriberDb.prepareStatement(query);
@@ -136,7 +144,7 @@ public class DataBaseManager
 		preparedStmt.setInt (2, requestingClient);
 		preparedStmt.setInt (3, destinedClient);
 		preparedStmt.setInt (4, missionDrone);
-		preparedStmt.setDate (5, dateCreated);
+//		preparedStmt.setDate (5, dateCreated);
 		preparedStmt.execute();
 	
 		

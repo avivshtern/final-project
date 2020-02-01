@@ -10,7 +10,7 @@ public class Client{
 	private Address address;
 	private String phoneNumber; // used string to keep 0 at the beginning
 	private int clientID;
-	private static eSubscriptionType subscriptionType;
+	private eSubscriptionType subscriptionType;
 	private int numOfShipmentsLeft;
 	private LocalDate dateOfRegistration;
 	private LocalDate dateOfPayment;
@@ -33,7 +33,7 @@ public class Client{
 	
 	public String clientToString ()
 	{
-		return ("Client name: "+ firstName + " "+lastName+"\nClient Address: "+ address.addressToString() + "\nClient phone nubmber: "+phoneNumber+"\nClient ID: "+ clientID+ "\nClient date of registration:" + dateOfRegistration + "\nClient orders left: "+numOfShipmentsLeft);
+		return ("Client name: "+ firstName + " "+lastName+"\nClient Address: "+ address.addressToString() + "\nClient phone nubmber: "+phoneNumber+"\nClient ID: "+ clientID+ "\nClient date of registration:" + dateOfRegistration + "\nDate of payment: "+ dateOfPayment + "\nSubscriptionType: "+ subscriptionTypeToString() + "\nClient orders left: "+numOfShipmentsLeft);
 	}
 	
 	public void setSubscriptionType (eSubscriptionType subscriptionType)
@@ -158,6 +158,23 @@ public class Client{
 	public int getNumOfShipmentsLeft()
 	{
 		return numOfShipmentsLeft;
+	}
+	
+	public String subscriptionTypeToString()
+	{
+		if (subscriptionType==eSubscriptionType.MONTHLY) 
+		{
+			return "monthly";
+		}
+		if (subscriptionType==eSubscriptionType.BIG_PACKAGE) 
+		{
+			return "big package";
+		}
+		if (subscriptionType==eSubscriptionType.SMALL_PACKAGE) 
+		{
+			return "small package";
+		}
+		return "no subscription";
 	}
 	
 }

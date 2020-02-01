@@ -1,25 +1,30 @@
 
-import java.util.*;
+import java.util.*; 
 import java.time.*;
+
+// this class is the main class that manage the brain of the system and connects between the clients to the orders and the drones, and sets an API for the UI and the DB manager
 public class DroneSystem {
 	
 	private int numOfDrones=5;
+	// these three arrays are set to 0 to make sure that the size of these arrays is the exact size needed. in every insert to those arrays the increase their sizes with .ensureCapacity()
 	public ArrayList<Client> clientList= new ArrayList<Client>(0);
 	public ArrayList<Drone> droneList = new ArrayList<Drone>(0);
 	public ArrayList<Order> orderList = new ArrayList<Order>(0);
 	
 	DroneSystem()
 	{
+		//initiates the drones
 		for (int i=0; i<numOfDrones; i++)
 		{
 			Drone createdDrone=new Drone(i);
-			droneList.ensureCapacity(i+1);
+			droneList.ensureCapacity(i+1); 
 			droneList.add(createdDrone);
 		}
 		
 		System.out.println("system is ready");
 	}
 
+	
 	public Client addClient (String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber, eSubscriptionType subscriptionType)
 	{
 		clientList.ensureCapacity(clientList.size()+1);
@@ -29,7 +34,7 @@ public class DroneSystem {
 		return currentClient;
 	}
 	
-	private Drone findAvailableDrone()
+	private Drone findAvailableDrone()//looking for an available drone from droneList. if not found, returns null
 	{
 		for (int i=0; i<numOfDrones; i++)
 		{
@@ -40,29 +45,45 @@ public class DroneSystem {
 				return currentDrone;
 			}
 		}
-		System.out.println("There is no available drone right now, please wait as we find you an available drone");
-		return findAvailableDrone(); // will look for an available drone until found one
+		return null;
+	}
+	
+	public boolean subscriptionStatus (Client currentClient)
+	{
+		Period period = Period.between(currentClient.getDateOfPayment(), LocalDate.now());//being calculated for monthly subscriptions
+		if (currentClient.getNumOfShipmentsLeft()==0 ||  (currentClient.getSubscriptionType()==eSubscriptionType.MONTHLY && period.getMonths()>1))//checks if subscription is suppose to end
+		{
+			currentClient.setSubscriptionType(null);
+			currentClient.setNumOfShipmentsLeft(0);
+			return false;
+		}
+		if (currentClient.getSubscriptionType()==eSubscriptionType.MONTHLY && period.getDays()<=30)//verifies that monthly subscription won't end before time  
+		{
+			currentClient.setNumOfShipmentsLeft(1000);
+			return true;
+		}
+		return true;
+	}
+	
+	public void newSubscription (Client currentClient, eSubscriptionType newSubscriptionType)
+	{
+		currentClient.setSubscriptionType(newSubscriptionType);
 	}
 	
 	public String addOrder (int requestingClientID, int destinedClientID)
 	{
 		Client requestingClient = clientList.get(requestingClientID);
 		Client destinedClient = clientList.get(destinedClientID);
-		if (requestingClient.getNumOfShipmentsLeft()==0)
+		if (subscriptionStatus(requestingClient)==false)
 		{
-			Period period = Period.between(LocalDate.now(), requestingClient.getDateOfPayment());
-				if (requestingClient.getSubscriptionType()!=eSubscriptionType.MONTHLY || (requestingClient.getSubscriptionType()==eSubscriptionType.MONTHLY && period.getDays()>=30)) 
-				{
-					String message = "can not make new order, the client needs to choose new subscription type and set the order again";
-					System.out.println(message);
-					return message;
-				}
-				if (requestingClient.getSubscriptionType()==eSubscriptionType.MONTHLY && period.getDays()<=30)
-				{
-					requestingClient.setNumOfShipmentsLeft(1000);
-				}
+			return "can not make new order, the client needs to choose new subscription type and set the order again";
 		}
 		Drone currentDrone=findAvailableDrone();
+		if (currentDrone==null)
+		{
+			System.out.println("no available drone. please try again later");
+			return;
+		}
 		orderList.ensureCapacity(orderList.size()+1);
 		Order currentOrder = new Order(orderList.size(), requestingClient, destinedClient, currentDrone);
 		orderList.add(currentOrder);
@@ -84,7 +105,8 @@ public class DroneSystem {
 		}
 		return clientIDList;
 	}
-	
+
+
 	public ArrayList<Client> getClientsList() 
 	{
 		return clientList;
@@ -94,4 +116,6 @@ public class DroneSystem {
 	{
 		Message messageRequested = new Message (requestingClient.getPhoneNum(), destinedClient.getPhoneNum(), messageContent);
 	}
+	
+
 }

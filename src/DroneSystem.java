@@ -10,6 +10,7 @@ public class DroneSystem {
 	public ArrayList<Client> clientList= new ArrayList<Client>(0);
 	public ArrayList<Drone> droneList = new ArrayList<Drone>(0);
 	public ArrayList<Order> orderList = new ArrayList<Order>(0);
+	public Client currentUser;
 	
 	DroneSystem()
 	{
@@ -22,6 +23,11 @@ public class DroneSystem {
 		}
 		
 		System.out.println("system is ready");
+	}
+	
+	public Client registerNewUser(String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber, eSubscriptionType subscriptionType) {	
+		currentUser = addClient(firstName, lastName, cityName, streetName, streetNum, phoneNumber,subscriptionType);
+		return currentUser;
 	}
 
 	
@@ -82,7 +88,7 @@ public class DroneSystem {
 		if (currentDrone==null)
 		{
 			System.out.println("no available drone. please try again later");
-			return;
+			return "no available drone. please try again later";
 		}
 		orderList.ensureCapacity(orderList.size()+1);
 		Order currentOrder = new Order(orderList.size(), requestingClient, destinedClient, currentDrone);
@@ -112,6 +118,30 @@ public class DroneSystem {
 		return clientList;
 	}
 	
+	public Client logIn(String fullName, String Id) {
+		 try {  	 
+			Client client = getClientByID(Integer.parseInt(Id));
+			System.out.println(client.getName() +"==" + fullName);
+			if(client.getName().trim().equals(fullName)) {
+				currentUser = client;
+				return currentUser;
+			
+			}
+			return null;
+		 }catch(NumberFormatException e) {
+			 return null; 
+		 }
+	}
+	
+	private  Client getClientByID(int id) {
+		for( int i = 0; i< clientList.size() ; i++) {
+			Client client = clientList.get(i);
+			if(client.getClientID() == id) {
+				return client;
+			 }		  
+		  }
+		  return null;
+	  }
 	public void sendingMessageBetweenClients (Client requestingClient, Client destinedClient, String messageContent)
 	{
 		Message messageRequested = new Message (requestingClient.getPhoneNum(), destinedClient.getPhoneNum(), messageContent);

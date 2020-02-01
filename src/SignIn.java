@@ -29,6 +29,9 @@ public class SignIn  extends JFrame implements ActionListener{
 	JPanel btnPanel = new JPanel();
 	JButton signInBtn = new JButton("Sign-In");
 	
+	JLabel messageLable = new JLabel(); 
+	JPanel messagePanel = new JPanel();
+	
 	DroneSystem droneSystem;
 	public SignIn(DroneSystem droneSystem) {
 		 	this.droneSystem = droneSystem;
@@ -74,12 +77,29 @@ public class SignIn  extends JFrame implements ActionListener{
 	  add(fullNamePanel);
 	  add(clientIDPanel);
 	  add(btnPanel);
+	  add(messagePanel);
+  }
+  
+  void addMessage(String msg) {
+	  messagePanel.removeAll();
+	  messageLable.setText(msg);
+	  messagePanel.add(messageLable);
+	  messagePanel.validate();
+	  messagePanel.repaint();
   }
   
   @Override
   public void actionPerformed(ActionEvent e) {
 	  if(e.getActionCommand() == "Sign-In") {
 			System.out.println(e.getActionCommand());
+			Client currentUser =  droneSystem.logIn(fullName.getText().trim(), clientID.getText().trim());
+			System.out.println(currentUser);
+			if(currentUser != null) {
+				new DroneOrderForm(this.droneSystem, droneSystem.currentUser);
+				addMessage("Welcome " + currentUser.getName());
+			}else {
+				addMessage("The enterd name or password is incorrect");
+			}
 	  }
   }
 }

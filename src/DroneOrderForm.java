@@ -45,33 +45,9 @@ public class DroneOrderForm extends JFrame implements ActionListener {
   }
 
 
-  private  ArrayList<Client> creatMockData(){
-
-	  Client client1 = new Client("avi", "Dotan", "ako","ha-ganim", 35, "0453344494", 123, eSubscriptionType.BIG_PACKAGE );
-	  Client client2 = new Client("avi", "Dotan2", "ako","ha-ganim", 35, "0453344494", 124, eSubscriptionType.BIG_PACKAGE );
-	  Client client3 = new Client("avi", "Dotan3", "ako","ha-ganim", 35, "0453344494", 125, eSubscriptionType.BIG_PACKAGE );
-	  Client client4 = new Client("avi", "Dotan4", "ako","ha-ganim", 35, "0453344494", 126, eSubscriptionType.BIG_PACKAGE );
-	  Client client5 = new Client("avi", "Dotan5", "ako","ha-ganim", 35, "0453344494", 127, eSubscriptionType.BIG_PACKAGE );
-	  Client client6 = new Client("avi", "Dotan5", "ako","ha-ganim", 35, "0453344494", 128, eSubscriptionType.BIG_PACKAGE );
-	  Client client7 = new Client("avi", "Dotan5", "ako","ha-ganim", 35, "0453344494", 129, eSubscriptionType.BIG_PACKAGE );
-	  Client client8 = new Client("avi", "Dotan5", "ako","ha-ganim", 35, "0453344494", 130, eSubscriptionType.BIG_PACKAGE );
-	  ArrayList<Client> clients = new ArrayList<Client>();
-	  clients.add(client1);
-	  clients.add(client2);
-	  clients.add(client3);
-	  clients.add(client4);
-	  clients.add(client5);
-	  clients.add(client6);
-	  clients.add(client7);
-	  clients.add(client8);
-  
-	  return clients;
-  } 
-
-
   private void initComponent(){
 	  this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-	  this.add(PageHeader("Hallow "+ user.getName(), "Select a clients from the list..."));
+	  this.add(PageHeader("Hallow "+ user.getName(), "Select a clients from the list...", "You Have " + user.getNumOfShipmentsLeft() + " left"));
 	  this.add(resultBox);
 	  this.add(messageBox);
 	  this.add(creatClientList(this.clients));  
@@ -79,7 +55,7 @@ public class DroneOrderForm extends JFrame implements ActionListener {
   
   
   private JPanel creatClientList(ArrayList<Client> clients){
-	  clientList.setPreferredSize(new Dimension(400, 500));
+	  clientList.setPreferredSize(new Dimension(400, 400));
 	  for(int i = 0; i < clients.size(); i++ ) {
 		  clientList.add(clientCard(clients.get(i), "Select", true));
 	  } 
@@ -89,16 +65,22 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	  return clientListContainer;
   }
   
-  private JPanel PageHeader(String header, String description) {
+  private JPanel PageHeader(String header, String description, String shipmentsLeftText) {
 	 JPanel headerPanel = panelWithPadding(0,10,0,10);
-	 headerPanel.setPreferredSize(new Dimension(400, 10));
+	 headerPanel.setPreferredSize(new Dimension(400, 90));
  	 JLabel label = new JLabel (header);
  	 label.setPreferredSize(new Dimension(400, 30));
  	 label.setFont(new Font("Serif", Font.BOLD, 24));
+	 
+ 	 JLabel shipmentsLeftLabel = new JLabel (shipmentsLeftText);
+	 shipmentsLeftLabel.setPreferredSize(new Dimension(400, 30));
+	 shipmentsLeftLabel.setFont(new Font("Serif", Font.BOLD, 16));
+	 
  	 JLabel descriptionLabel = new JLabel (description);
  	 descriptionLabel.setPreferredSize(new Dimension(400, 30));
- 	descriptionLabel.setFont(new Font("Serif", Font.BOLD, 16));
+ 	 descriptionLabel.setFont(new Font("Serif", Font.BOLD, 16));
  	 headerPanel.add(label);
+ 	 headerPanel.add(shipmentsLeftLabel);
  	 headerPanel.add(descriptionLabel);
 	 return headerPanel;
  }

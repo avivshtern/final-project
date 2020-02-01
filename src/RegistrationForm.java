@@ -50,8 +50,6 @@ import java.awt.*;
 
 	    DroneSystem droneSystem;
 	    
-	    Client currentClient;
-	    
 	    RegistrationForm(DroneSystem droneSystem)
 	    {
 	    	super();
@@ -66,9 +64,10 @@ import java.awt.*;
 	    {
 	    	frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.PAGE_AXIS));
 	        frame.setTitle("Registration Form");
+	        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	        frame.setBounds(120,120,900,500);
 	        frame.setVisible(true);
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame.setResizable(false);
 	    }
 	    public void setLocationAndSize()
@@ -249,7 +248,7 @@ import java.awt.*;
 	    		boolean isFormValid = ChackFormValidation(); 
 	    		if(isFormValid) { 
 	    		String serlectedItem = subscriptionTypeComboBox.getSelectedItem().toString();
-	    		currentClient  = this.droneSystem.addClient(fnameTextField.getText(),
+	    		this.droneSystem.registerNewUser(fnameTextField.getText(),
 	    				lnameTextField.getText(),
 	    				cityTextField.getText(),
 	    				StreetTextField.getText(),
@@ -266,10 +265,11 @@ import java.awt.*;
 	    		resetFileds();
 	    	}else if(buttontText == "Order") {	 
 	    		System.out.println(buttontText);
-    			new DroneOrderForm(this.droneSystem, currentClient);
+    			new DroneOrderForm(this.droneSystem, droneSystem.currentUser);
 	    	}else if(buttontText == "LogIn") {	 
 	    		System.out.println(buttontText);
     			new SignIn(this.droneSystem);
+    
 	    	}
 	    }
 	}

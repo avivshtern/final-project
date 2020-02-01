@@ -20,9 +20,11 @@ public class DroneOrderForm extends JFrame implements ActionListener {
   JScrollPane jScrollPane = new JScrollPane(this.clientList);  
   JPanel resultBox = new JPanel (); 
   Client selectedClient;
-  
+  JPanel pageHeader;
   String message;
   JPanel messageBox = new JPanel();
+  
+  JLabel shipmentsLeftLabel;
   
   public DroneOrderForm(DroneSystem droneSystem, Client user){
     super();
@@ -47,7 +49,8 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 
   private void initComponent(){
 	  this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-	  this.add(PageHeader("Hallow "+ user.getName(), "Select a clients from the list...", "You Have " + user.getNumOfShipmentsLeft() + " left"));
+	  pageHeader = PageHeader("Hallow "+ user.getName(), "Select a clients from the list...", "You Have " + user.getNumOfShipmentsLeft() + " shipments left");
+	  this.add(pageHeader);
 	  this.add(resultBox);
 	  this.add(messageBox);
 	  this.add(creatClientList(this.clients));  
@@ -72,7 +75,7 @@ public class DroneOrderForm extends JFrame implements ActionListener {
  	 label.setPreferredSize(new Dimension(400, 30));
  	 label.setFont(new Font("Serif", Font.BOLD, 24));
 	 
- 	 JLabel shipmentsLeftLabel = new JLabel (shipmentsLeftText);
+ 	 shipmentsLeftLabel = new JLabel (shipmentsLeftText);
 	 shipmentsLeftLabel.setPreferredSize(new Dimension(400, 30));
 	 shipmentsLeftLabel.setFont(new Font("Serif", Font.BOLD, 16));
 	 
@@ -125,6 +128,13 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	  messageBox.repaint();
   }
   
+  private void rerenderHeader() {
+	shipmentsLeftLabel.setText( "You Have " + user.getNumOfShipmentsLeft() + " left");
+	shipmentsLeftLabel.validate();
+	shipmentsLeftLabel.repaint();
+	 
+  }
+  
   private  Client getClientByID(int id) {
 	  for( int i = 0; i< clients.size() ; i++) {
 		 Client client = clients.get(i);
@@ -142,6 +152,8 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	  	if(e.getActionCommand() == "Send Delivery") {
 	  		
 	  	message = droneSystem.addOrder(user.getClientID(), selectedClient.getClientID());
+	  	this.user = droneSystem.currentUser;
+	  	rerenderHeader();
 	  	showMessage();
 	  	}else {
 	  		int id = Integer.parseInt(e.getActionCommand());

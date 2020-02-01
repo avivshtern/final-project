@@ -1,6 +1,7 @@
 
 import java.sql.Connection;
 import java.time.*;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +39,7 @@ public class DataBaseManager
 		String phoneNumber=client.getPhoneNum();
 		eSubscriptionType subscriptionType=client.getSubscriptionType();
 		int numOfShipmentsLeft=client.getNumOfShipmentsLeft();
-		LocalDateTime dateOfRegistration=client.getDateOfRegistration();
+		Date dateOfRegistration=Date.valueOf(client.getDateOfRegistration());
 
 		String query = " insert into clients (clientID, firstName, lastName, phoneNumber, subscriptionType, numOfShipmentsLeft, dateOfRegistration)" + " values (?,?,?,?,?,?,?)";
 		PreparedStatement preparedStmt = connSubscriberDb.prepareStatement(query);
@@ -127,7 +128,7 @@ public class DataBaseManager
 		int requestingClient=order.getRequestingClient().getClientID();
 		int destinedClient=order.getDestinedClient().getClientID();
 		int missionDrone=order.getMissionDrone().getDroneID();
-		java.sql.Date dateCreated=order.getDateCreated();
+		Date dateCreated=Date.valueOf(order.getDateCreated());
 		
 		String query = " insert into orders (orderNum, requestingClient_fk, destinedClient_fk, missionDrone_fk, dateCreated)" + " values (?,?,?,?,?)";
 		PreparedStatement preparedStmt = connSubscriberDb.prepareStatement(query);

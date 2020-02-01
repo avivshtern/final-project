@@ -20,13 +20,13 @@ public class DroneSystem {
 		System.out.println("system is ready");
 	}
 
-	public int addClient (String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber, eSubscriptionType subscriptionType)
+	public Client addClient (String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber, eSubscriptionType subscriptionType)
 	{
 		clientList.ensureCapacity(clientList.size()+1);
 		Client currentClient = new Client(firstName, lastName, cityName, streetName, streetNum, phoneNumber, clientList.size(), subscriptionType);
 		clientList.add(currentClient);
 		System.out.println("Client added successfuly. Client details:\n"+ currentClient.clientToString());
-		return currentClient.getClientID();
+		return currentClient;
 	}
 	
 	private Drone findAvailableDrone()
@@ -78,6 +78,11 @@ public class DroneSystem {
 			clientIDList.add(i);//every client ID is in order from 0 to num of clients (represented ad clientList.size())
 		}
 		return clientIDList;
+	}
+	
+	public ArrayList<Client> getClientsList() 
+	{
+		return clientList;
 	}
 	
 	public void sendingMessageBetweenClients (Client requestingClient, Client destinedClient, String messageContent)

@@ -10,7 +10,8 @@ public class UIMain {
 		DroneSystem droneSystem = new DroneSystem();
 		
 		   new RegistrationForm(droneSystem);
-		//   new DroneOrderForm(droneSystem, client1);
+//		  Client client1 = new Client("avi", "Dotan", "ako","ha-ganim", 35, "0453344494", 123, eSubscriptionType.BIG_PACKAGE );
+//		   new DroneOrderForm(droneSystem, client1);
 
 	}
 

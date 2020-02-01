@@ -13,7 +13,7 @@ public class DroneOrderForm extends JFrame implements ActionListener {
  
   DroneSystem droneSystem;
   Client user;
-  private ArrayList<Client> clients = creatMockData();
+  private ArrayList<Client> clients;
   private JButton btnSend  = new JButton("Send Order");
   JPanel clientList  =  new JPanel ();
   JPanel clientListContainer  =  new JPanel ();
@@ -25,8 +25,10 @@ public class DroneOrderForm extends JFrame implements ActionListener {
     super();
     this.droneSystem = droneSystem;
     this.user = user;
+    this.clients = droneSystem.getClientsList();
     setTitle("Shipping Ordering Form");
     setFreamIcon();
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE );
     setBounds(800,10,600,800); 
     setVisible(true);
     setResizable(false);
@@ -66,7 +68,7 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 
   private void initComponent(){
 	  this.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-	  this.add(PageHeader("Select a User to send to"));
+	  this.add(PageHeader("Hallow "+ user.getName(), "Select a clients from the list..."));
 	  this.add(resultBox);
 	  this.add(creatClientList(this.clients));  
   }
@@ -83,13 +85,17 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	  return clientListContainer;
   }
   
-  private JPanel PageHeader(String str) {
+  private JPanel PageHeader(String header, String description) {
 	 JPanel headerPanel = panelWithPadding(0,10,0,10);
 	 headerPanel.setPreferredSize(new Dimension(400, 10));
- 	 JLabel label = new JLabel (str);
- 	 label.setPreferredSize(new Dimension(400, 50));
+ 	 JLabel label = new JLabel (header);
+ 	 label.setPreferredSize(new Dimension(400, 30));
  	 label.setFont(new Font("Serif", Font.BOLD, 24));
+ 	 JLabel descriptionLabel = new JLabel (description);
+ 	 descriptionLabel.setPreferredSize(new Dimension(400, 30));
+ 	descriptionLabel.setFont(new Font("Serif", Font.BOLD, 16));
  	 headerPanel.add(label);
+ 	 headerPanel.add(descriptionLabel);
 	 return headerPanel;
  }
   

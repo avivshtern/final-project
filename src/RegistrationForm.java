@@ -30,6 +30,8 @@ import java.awt.*;
 
 		JButton registerButton=new JButton("Register");
 	    JButton resetButton=new JButton("Reset");
+	    JButton orderButton=new JButton("Order");
+	    
 	    
 	    JPanel PnameContainer;
 	    JPanel PAddressContainer;
@@ -46,6 +48,8 @@ import java.awt.*;
 	    JPanel Subscriptionheader = CreatSubscriptionText();
 
 	    DroneSystem droneSystem;
+	    
+	    Client currentClient;
 	    
 	    RegistrationForm(DroneSystem droneSystem)
 	    {
@@ -212,6 +216,24 @@ import java.awt.*;
 	    	}
 	    	
 	    }
+	    
+	    void resetFileds() {
+	    	fnameTextField.setText("");
+            lnameTextField.setText("");
+            StreetTextField.setText("");
+            streetNumTextField.setText("");
+            cityTextField.setText("");
+            subscriptionTypeComboBox.setSelectedItem("Big");
+            phoneNumber.setText("");
+	    }
+	    
+	    void addOrderBtn() {
+	    	orderButton.addActionListener(this);
+	    	buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
+	    	buttonPane.add(orderButton);
+	    	buttonPane.validate();
+	    	buttonPane.repaint();
+	    }
 
 
 	    @SuppressWarnings("null")
@@ -219,11 +241,11 @@ import java.awt.*;
 	    public void actionPerformed(ActionEvent e) {
 	    	String buttontText = e.getActionCommand();
 	    	if(buttontText == "Register") {
+	    		System.out.println("Register");
 	    		boolean isFormValid = ChackFormValidation(); 
 	    		if(isFormValid) { 
-    			System.out.println("Register");
 	    		String serlectedItem = subscriptionTypeComboBox.getSelectedItem().toString();
-	    		this.droneSystem.addClient(fnameTextField.getText(),
+	    		currentClient  = this.droneSystem.addClient(fnameTextField.getText(),
 	    				lnameTextField.getText(),
 	    				cityTextField.getText(),
 	    				StreetTextField.getText(),
@@ -231,19 +253,16 @@ import java.awt.*;
 	    				phoneNumber.getText(),
 	    				 getSubscriptionEnum(serlectedItem)	    			
 	    				);
-	    		 Client tempUser = new Client("avi", "Dotan", "ako","ha-ganim", 35, "0453344494", 123, eSubscriptionType.BIG_PACKAGE );
-	    		 new DroneOrderForm(this.droneSystem, tempUser);
+	    		 resetFileds();
+	    		 addOrderBtn();
 	    			
 	    		}
 	    	}else if(buttontText == "Reset") {
 	    		System.out.println("Reset");
-	    		fnameTextField.setText("");
-	            lnameTextField.setText("");
-	            StreetTextField.setText("");
-	            streetNumTextField.setText("");
-	            cityTextField.setText("");
-	            subscriptionTypeComboBox.setSelectedItem("Big");
-	            phoneNumber.setText("");
+	    		resetFileds();
+	    	}else if(buttontText == "Order") {	 
+	    		System.out.println(buttontText);
+    			new DroneOrderForm(this.droneSystem, currentClient);
 	    	}
 	    }
 	}

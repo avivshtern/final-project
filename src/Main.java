@@ -2,7 +2,6 @@ import java.time.*;
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		DroneSystem droneSystem1=new DroneSystem();
 		if (!droneSystem1.startSystem())
 		{
@@ -19,13 +18,13 @@ public class Main {
 		/*System.out.println(droneSystem1.clientList.get(0).clientToString());
 		Client d= droneSystem1.clientList.get(1);
 		System.out.println(d.clientToString());
-		droneSystem1.sendingMessageBetweenClients(0, 1, "Hi how are you ?");
+		droneSystem1.sendingMessageBetweenClients(0, 1, "Hi how are you ?");*/
 		droneSystem1.addOrder(0, 1);
-		System.out.println(c.clientToString());
+		/*System.out.println(c.clientToString());
 		/*droneSystem1.addOrder(1, 0);
 		droneSystem1.addOrder(1, 0);
 		droneSystem1.addOrder(1, 0);
 		droneSystem1.addOrder(1, 0);*/
-		}
+	}
 
 }

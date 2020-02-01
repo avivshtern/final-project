@@ -1,5 +1,5 @@
 
-
+// this class manage the drones and its mission time
 public class Drone {
 	
 	private static final int ARRIVING_TO_REQUESTING_CLIENT_TIME_IN_MS = 5000;	
@@ -26,6 +26,7 @@ public class Drone {
 		System.out.println("Drone added successfuly. Drone ID:\n"+ droneID);
 	}
 	
+	//set the drone for mission with the needed information from currentOrder
 	public void setForMission(Order currentOrder)
 	{
 		setCurrentOrder(currentOrder);
@@ -35,24 +36,24 @@ public class Drone {
 		destenationAddress=destinedClient.getAddress();
 		isAvailable=false;
 		System.out.println("Drone is ready for mission, from " + requestingClient.getName() + ", at the address "+ startingAddress.addressToString()+ "\nto " + destinedClient.getName() + ", at the address "+ destenationAddress.addressToString());
-		//arriving to requesting client
+		//arriving to requesting client. this simulates the arrival of the drone to the client requesting the order
 		new java.util.Timer().schedule( 
 		        new java.util.TimerTask() {
 		            @Override
 		            public void run() {
-		            	Message arrivalMessage = new Message(requestingClient.getPhoneNum(), "Drone is here to pick up the package from " + requestingClient.getName() + ", at the address "+ startingAddress.addressToString()+ "\nto " + destinedClient.getName() + ", at the address "+ destenationAddress.addressToString());
+		            	Message arrivalMessage = new Message(requestingClient.getPhoneNum(), "Drone is here to pick up the package from " + requestingClient.getName() + ", at the address "+ startingAddress.addressToString()+ "\nto " + destinedClient.getName() + ", at the address "+ destenationAddress.addressToString());// this simulated a message sent to the requesting client to inform that it arrived his address to pickup the package  
 		            }
 		        }, 
 		        ARRIVING_TO_REQUESTING_CLIENT_TIME_IN_MS 
 		);
-		//arriving to destined client  
+		//arriving to destined client. this simulates the arrival of the drone to the destined client 
 		new java.util.Timer().schedule( 
 		        new java.util.TimerTask() {
 		            @Override
 		            public void run() {
-		            	Message arrivalMessage = new Message(requestingClient.getPhoneNum(), "Package arrived successfuly to " + destinedClient.getName() + ", at the address "+ destenationAddress.addressToString());
-		            	Message destinedClientMessage = new Message (destinedClient.getPhoneNum(), "Package arrived to you from "+requestingClient.getName());
-		            	isAvailable=true;
+		            	Message arrivalMessage = new Message(requestingClient.getPhoneNum(), "Package arrived successfuly to " + destinedClient.getName() + ", at the address "+ destenationAddress.addressToString());// this simulated a message sent to the requesting client to inform that it arrived the destined clients address and left the package
+		            	Message destinedClientMessage = new Message (destinedClient.getPhoneNum(), "Package arrived to you from "+requestingClient.getName());// this simulated a message sent to the destined client to inform that it arrived his address and left the package
+		            	isAvailable=true;//releases the drone and now its available for new missions
 		                batteryLifePercentage = batteryLifePercentage-(ARRIVING_TO_DESTINED_CLIENT_TIME_IN_MS+ARRIVING_TO_REQUESTING_CLIENT_TIME_IN_MS)/(MAX_FLIGHT_TIME_IN_HOURS*60*60*100);
 		                if (batteryLifePercentage<=0)
 		                {

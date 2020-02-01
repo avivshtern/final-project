@@ -14,38 +14,46 @@ public class DroneSystem {
 	
 	DroneSystem(){}
 	
+	//initiates the system - initiates the drones and creates the tables in the DB
 	public boolean startSystem ()
 	{
-		//initiates the drones
-		for (int i=0; i<numOfDrones; i++)
+		//creates tables
+		if (!DataBaseManager.createTables())
 		{
-			Drone createdDrone=new Drone(i);
-			droneList.ensureCapacity(i+1); 
-			droneList.add(createdDrone);
-			DataBaseManager.addDroneIntoDb(createdDrone);
-		}
-		if (!DataBaseManager.createsTables()){
 			System.out.println("Couldn't create DB tables. System cannot start");
 			return false;
 		}
-		else
+		//initiates the drones
+		for (int i=0; i<numOfDrones; i++)
 		{
-			System.out.println("System is ready");	
-			return true;
+			addDrone(i);
 		}
+		System.out.println("System is ready");	
+		return true;
 	}
 	
+	//creates new drone and adds it to droneList and to drone table in DB
+	public void addDrone (int DroneID)
+	{
+		Drone createdDrone=new Drone(DroneID);
+		droneList.ensureCapacity(DroneID+1); 
+		droneList.add(createdDrone);
+		DataBaseManager.addDrone(createdDrone);
+	}
+	
+	//creates new client and adds it to clientList and to client table in DB
 	public Client addClient (String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber, eSubscriptionType subscriptionType)
 	{
 		clientList.ensureCapacity(clientList.size()+1);
 		Client currentClient = new Client(firstName, lastName, cityName, streetName, streetNum, phoneNumber, clientList.size(), subscriptionType);
 		clientList.add(currentClient);
-		DataBaseManager.addClientIntoDb(currentClient);
+		DataBaseManager.addClient(currentClient);
 		System.out.println("Client added successfuly. Client details:\n"+ currentClient.clientToString());
 		
 		return currentClient;
 	}
 	
+	//finds available drone fron droneList
 	private Drone findAvailableDrone()//looking for an available drone from droneList. if not found, returns null
 	{
 		for (int i=0; i<numOfDrones; i++)
@@ -60,6 +68,7 @@ public class DroneSystem {
 		return null;
 	}
 	
+	//checks if currentClient still has a valid subscription
 	public boolean subscriptionStatus (Client currentClient)
 	{
 		Period period = Period.between(currentClient.getDateOfPayment(), LocalDate.now());//being calculated for monthly subscriptions
@@ -77,11 +86,14 @@ public class DroneSystem {
 		return true;
 	}
 	
+	//gives currentClient new subscription type (activated if subscriptionStatus==false)
 	public void newSubscription (Client currentClient, eSubscriptionType newSubscriptionType)
 	{
 		currentClient.setSubscriptionType(newSubscriptionType);
+		currentClient.setDateOfPayment(LocalDate.now());
 	}
 	
+	//creates new order and adds it to clientOrder and to client table in DB
 	public String addOrder (int requestingClientID, int destinedClientID)
 	{
 		Client requestingClient = clientList.get(requestingClientID);
@@ -100,13 +112,14 @@ public class DroneSystem {
 		orderList.add(currentOrder);
 		currentDrone.setForMission(currentOrder);
 		requestingClient.addNewOrder(currentOrder);
-		DataBaseManager.addOrderIntoDb(currentOrder);
+		DataBaseManager.addOrder(currentOrder);
 		String message = "Order added successfuly. Order details:\n from: " + currentDrone.getRequestingClient().getName() + ", "+ currentDrone.getRequestingClient().getAddress() +
 				"\n to: " + currentOrder.getDestinedClient().getName() + ", " + currentOrder.getDestinedClient().getAddress();
 		System.out.println(message);
 		return message;
 	}
 	
+	//returns a client ID list for the UI
 	public ArrayList getClientIDList ()
 	{
 		ArrayList<Integer> clientIDList= new ArrayList<Integer>(clientList.size());
@@ -116,13 +129,13 @@ public class DroneSystem {
 		}
 		return clientIDList;
 	}
-
-
+	
 	public ArrayList<Client> getClientsList() 
 	{
 		return clientList;
 	}
 	
+	//Bonus request - an option to sent messages through two clients with any content they wish
 	public void sendingMessageBetweenClients (Client requestingClient, Client destinedClient, String messageContent)
 	{
 		Message messageRequested = new Message (requestingClient.getPhoneNum(), destinedClient.getPhoneNum(), messageContent);

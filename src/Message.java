@@ -1,5 +1,5 @@
 
-
+//this class enables to send a message to the clients from the system and to each other
 public class Message {
 	private String messageContent;
 	private String phoneNumRequestingClient;
@@ -7,7 +7,7 @@ public class Message {
 	
 	Message()
 	{}
-	
+	// BONUS - this type of constructor enables two client to connect with each other 
 	Message(String phoneNumRequestingClient, String phoneNumDestinedClient, String messageContent)
 	{
 		setMessageContent(messageContent);
@@ -15,7 +15,7 @@ public class Message {
 		setPhoneNumRequestingClient(phoneNumRequestingClient);
 		System.out.println("sending message from:" + phoneNumRequestingClient + ", to:" + phoneNumDestinedClient + "\n message content:" + messageContent + "\n message sent successfuly"); 
 	}
-	
+	//this type of constructor enables the system to send messages to the clients
 	Message(String phoneNumRequestingClient, String messageContent)
 	{
 		setMessageContent(messageContent);

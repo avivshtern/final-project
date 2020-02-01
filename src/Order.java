@@ -1,7 +1,7 @@
 
 
 import java.time.*;
-
+// this class manage the orders being made by the client
 public class Order{
 
 	private int orderNum;

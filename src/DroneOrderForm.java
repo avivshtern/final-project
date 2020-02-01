@@ -26,6 +26,12 @@ public class DroneOrderForm extends JFrame implements ActionListener {
   
   JLabel shipmentsLeftLabel;
   
+  JLabel subscriptionTypeLabel = new JLabel("Select Subscription Type");
+  String[] subscriptionTypes = {"Big","Small", "Monthly" };
+  JComboBox subscriptionTypeComboBox=new JComboBox(subscriptionTypes);
+  JButton addSubscriptionBtn = new JButton("Buy Now");
+  JPanel addSubscriptionTypesBox = new JPanel();
+  
   public DroneOrderForm(DroneSystem droneSystem, Client user){
     super();
     this.droneSystem = droneSystem;
@@ -53,7 +59,8 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	  this.add(pageHeader);
 	  this.add(resultBox);
 	  this.add(messageBox);
-	  this.add(creatClientList(this.clients));  
+	  this.add(creatClientList(this.clients));
+	 
   }
   
   
@@ -144,6 +151,16 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	  }
 	  return null;
   }
+  
+  
+	  private void creatAddSubscriptionPanel() {
+		  addSubscriptionBtn.addActionListener(this);
+		  addSubscriptionTypesBox.add(subscriptionTypeLabel);
+		  addSubscriptionTypesBox.add(subscriptionTypeComboBox);
+		  addSubscriptionTypesBox.add(addSubscriptionBtn);
+		  add(addSubscriptionTypesBox);
+		  
+	  }
 
  
 		@Override
@@ -153,9 +170,15 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	  		
 	  	message = droneSystem.addOrder(user.getClientID(), selectedClient.getClientID());
 	  	this.user = droneSystem.currentUser;
+	  	if(this.user.getNumOfShipmentsLeft() == 0 ) {
+	  		creatAddSubscriptionPanel();
+	  	}
 	  	rerenderHeader();
 	  	showMessage();
-	  	}else {
+	  	}else if(e.getActionCommand() == "Buy Now") {
+	  		droneSystem.newSubscription(this.user, droneSystem.getSubscriptionEnum(subscriptionTypeComboBox.getSelectedItem().toString()));
+	  		rerenderHeader();
+	  	} else {
 	  		int id = Integer.parseInt(e.getActionCommand());
 	  		selectedClient = getClientByID(id);
 	  		resultBox.removeAll();

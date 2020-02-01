@@ -168,7 +168,7 @@ import java.awt.*;
 		    SubscriptionText.setFont(new Font("Serif", Font.BOLD, 15));
 		    JLabel SubscriptionOption1 = new JLabel ("1. Big- 150 deliveries for only 179$");
 		    JLabel SubscriptionOption2 = new JLabel ("2. Small- 50 deliveries for only 99$");
-		    JLabel SubscriptionOption3 = new JLabel ("3. Monthly- 50 unlimited deliveries for only 199$");
+		    JLabel SubscriptionOption3 = new JLabel ("3. Monthly- Unlimited deliveries for only 199$");
 		    
 		    PanelContant.add(SubscriptionTextHeader);
 		    PanelContant.add(SubscriptionText);
@@ -205,21 +205,6 @@ import java.awt.*;
 	    	return formValid;
 	    }
 	    
-	    eSubscriptionType getSubscriptionEnum(String str){
-	    	switch(str) {
-	    	  case "Big":
-	    	   return eSubscriptionType.BIG_PACKAGE;
-	    	  case "Small":
-	    		  return eSubscriptionType.SMALL_PACKAGE;
-	    	  case "Monthly":
-	    		  return eSubscriptionType.MONTHLY;
-	    	  default:
-	    		  return eSubscriptionType.BIG_PACKAGE;
-	    		
-	    	}
-	    	
-	    }
-	    
 	    void resetFileds() {
 	    	fnameTextField.setText("");
             lnameTextField.setText("");
@@ -254,7 +239,7 @@ import java.awt.*;
 	    				StreetTextField.getText(),
 	    				Integer.parseInt(streetNumTextField.getText()),
 	    				phoneNumber.getText(),
-	    				 getSubscriptionEnum(serlectedItem)	    			
+	    				droneSystem.getSubscriptionEnum(serlectedItem)	    			
 	    				);
 	    		 resetFileds();
 	    		 addOrderBtn();

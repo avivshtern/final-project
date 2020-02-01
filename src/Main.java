@@ -7,6 +7,7 @@ public class Main {
 		new RegistrationForm(droneSystem1);
 		droneSystem1.addClient("Tamir", "Tubul", "Ashdod", "Hakinor", 26, "0546777483", eSubscriptionType.SMALL_PACKAGE);
 		droneSystem1.addClient("Aviv", "Shtern", "Ramat Hasharon", "Sokolov", 65, "0526134630", eSubscriptionType.BIG_PACKAGE);
+		droneSystem1.addClient("Zafrir", "Dotan", "Rehovot", "mordechai", 41, "999", eSubscriptionType.SMALL_PACKAGE);
 		Client c= droneSystem1.clientList.get(0);
 		System.out.println(c.clientToString());
 	    /*LocalDate monthBehind = c.getDateOfPayment().minusMonths(2);

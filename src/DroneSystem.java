@@ -147,5 +147,20 @@ public class DroneSystem {
 		Message messageRequested = new Message (requestingClient.getPhoneNum(), destinedClient.getPhoneNum(), messageContent);
 	}
 	
+   public eSubscriptionType getSubscriptionEnum(String str){
+    	switch(str) {
+    	  case "Big":
+    	   return eSubscriptionType.BIG_PACKAGE;
+    	  case "Small":
+    		  return eSubscriptionType.SMALL_PACKAGE;
+    	  case "Monthly":
+    		  return eSubscriptionType.MONTHLY;
+    	  default:
+    		  return eSubscriptionType.BIG_PACKAGE;
+    		
+    	}
+    	
+    }
+	
 
 }

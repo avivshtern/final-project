@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.util.Date;
 import java.awt.*;
 
-
+// This is the entering page of the ui and it also serves as the registration/ sign-up page 
 	public class RegistrationForm implements ActionListener {
 	    JFrame frame=new JFrame();
 	    
@@ -67,9 +67,9 @@ import java.awt.*;
 	        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	        frame.setBounds(120,120,900,500);
 	        frame.setVisible(true);
-//	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame.setResizable(false);
 	    }
+	    // Creates all the different elements on the page 
 	    public void setLocationAndSize()
 	    {
 	    	PnameContainer = BoxContainer(50);
@@ -104,6 +104,8 @@ import java.awt.*;
 	    	buttonPane.add(registerButton);
 	    	
 	    }
+	    
+	    // Adds the elements to the page 
 	    public void addComponentsToFrame()
 	    {
 	    	frame.add(appheader);
@@ -115,16 +117,14 @@ import java.awt.*;
 	        frame.add(Subscriptionheader);
 	        frame.add(PSubscriptionTypeContainer);
 	        frame.add(buttonPane);
-
-
 	    }
+	    
 	    
 	    private void setFreamIcon() {
 	    	ImageIcon img = new ImageIcon("images/icon4.png");
-	    	// iconURL is null when not found
 	    	frame.setIconImage(img.getImage());
 	    }
-	    
+	    // This panel is used to create the same style over and over in a modular way 
 	    private JPanel BoxContainer(int maxHight) {
 	    	 JPanel BoxContainer = new JPanel(new FlowLayout(0, 20, 10) );
 	    	 BoxContainer.setBorder(new MatteBorder(0,0,1,0,Color.lightGray));
@@ -132,6 +132,7 @@ import java.awt.*;
 	    	 return BoxContainer;
 	    }
 	    
+	 // This panel is used to create label-input peres with the same style over and over in a modular way 
 	    private JPanel  LabelAndInput(JLabel label, JComponent textField) {
 	    	JPanel PanelContainer = new JPanel(new FlowLayout(0, 10, 0) );
 	    	label.setPreferredSize(new Dimension(70,25));
@@ -139,7 +140,7 @@ import java.awt.*;
 	    	PanelContainer.add(textField);
 	    	return PanelContainer;
 	    }
-	    
+	// This version is the same as the above but lets you decades  the label width
 	    private JPanel  LabelAndInput(JLabel label, JComponent textField, int labelWidth) {
 	    	JPanel PanelContainer = new JPanel(new FlowLayout(0, 10, 0) );
 	    	label.setPreferredSize(new Dimension(labelWidth,25));
@@ -147,7 +148,7 @@ import java.awt.*;
 	    	PanelContainer.add(textField);
 	    	return PanelContainer;
 	    }
-	    
+	// This is used to create header element
 	    private JPanel headerContainer(JLabel label, int size) {
 	    	JPanel PanelContainer = new JPanel(new FlowLayout(0, 30, 0) );
 	    	PanelContainer.setMaximumSize(new Dimension(Short.MAX_VALUE, 20));
@@ -156,7 +157,7 @@ import java.awt.*;
 	    	PanelContainer.add(label);
 	    	return PanelContainer;
 	    }
-	    
+	// This is used to create Subscription options text
 	    private JPanel CreatSubscriptionText() {
 	    	JPanel PanelContainer = new JPanel(new FlowLayout(0, 30, 0));
 	    	JPanel PanelContant = new JPanel();
@@ -179,32 +180,37 @@ import java.awt.*;
 		    
 	    	return PanelContainer;
 	    }
-	    
-	    private JLabel PageHeader() {
-	    	 JLabel label = new JLabel ("Drone Post");
-	    	 label.setFont(new Font("Serif", Font.BOLD, 24));
-			 return label;
-	    }
-	    
+	    // Adds all the ActionListener at the same place 
 	    public void actionEvent()
 	    {
 	        registerButton.addActionListener(this);
 	        resetButton.addActionListener(this);
 	        logInButton.addActionListener(this);
-	    }
-	    
+		}
+		
+	    // Validates that all the form is filled
 	    boolean ChackFormValidation(){
 	    	boolean formValid = false;
 	    	if(
 	    	fnameTextField.getText().length() > 0 &&
 	    	lnameTextField.getText().length() > 0 &&
-	    	StreetTextField.getText().length()> 0
+			StreetTextField.getText().length()> 0 && 
+			streetNumTextField.getText().length()> 0 &&
+			cityTextField.getText().length()> 0 &&
+			phoneNumber.getText().length()> 0 
 	    	) {
-	    		formValid = true;
+				try{
+					// Validates that streetNum is a number
+					Integer.parseInt(streetNumTextField.getText());
+					formValid = true;
+				}catch(NumberFormatException e) {
+					return false;
+				}
 	    	};
 	    	return formValid;
 	    }
-	    
+		
+		// Reset all the fields 
 	    void resetFileds() {
 	    	fnameTextField.setText("");
             lnameTextField.setText("");
@@ -214,7 +220,8 @@ import java.awt.*;
             subscriptionTypeComboBox.setSelectedItem("Big");
             phoneNumber.setText("");
 	    }
-	    
+		
+		// When a user is signed-up the order button is added to the page
 	    void addOrderBtn() {
 	    	orderButton.addActionListener(this);
 	    	buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
@@ -223,11 +230,11 @@ import java.awt.*;
 	    	buttonPane.repaint();
 	    }
 
-
 	    @SuppressWarnings("null")
 		@Override
 	    public void actionPerformed(ActionEvent e) {
-	    	String buttontText = e.getActionCommand();
+			String buttontText = e.getActionCommand();
+			// Adds the User as a new client based on the filed form 
 	    	if(buttontText == "Register") {
 	    		System.out.println("Register");
 	    		boolean isFormValid = ChackFormValidation(); 
@@ -242,15 +249,19 @@ import java.awt.*;
 	    				droneSystem.getSubscriptionEnum(serlectedItem)	    			
 	    				);
 	    		 resetFileds();
-	    		 addOrderBtn();
+				 addOrderBtn();
+				 // Open a popup with the new clients id.
 	    		 new ClientIDBox(droneSystem);
-	    		}
+				}
+				// Resets the form
 	    	}else if(buttontText == "Reset") {
 	    		System.out.println("Reset");
-	    		resetFileds();
+				resetFileds();
+				// Open the order page
 	    	}else if(buttontText == "Order") {	 
 	    		System.out.println(buttontText);
-    			new DroneOrderForm(this.droneSystem, droneSystem.currentUser);
+				new DroneOrderForm(this.droneSystem, droneSystem.currentUser);
+				// Opens the login page 
 	    	}else if(buttontText == "LogIn") {	 
 	    		System.out.println(buttontText);
     			new SignIn(this.droneSystem);

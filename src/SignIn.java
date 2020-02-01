@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+// This component is used to sign in fore a user that has an account 
 public class SignIn  extends JFrame implements ActionListener{
 	JLabel signInLable = new JLabel("Sign-In to Drone Post"); 
 	JPanel signInPanel =  new JPanel();
@@ -79,7 +80,7 @@ public class SignIn  extends JFrame implements ActionListener{
 	  add(btnPanel);
 	  add(messagePanel);
   }
-  
+  // renders the message based on the result of the login method 
   void addMessage(String msg) {
 	  messagePanel.removeAll();
 	  messageLable.setText(msg);

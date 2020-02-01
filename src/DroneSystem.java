@@ -96,8 +96,8 @@ public class DroneSystem {
 		currentDrone.setForMission(currentOrder);
 		requestingClient.addNewOrder(currentOrder);
 		
-		String message = "Order added successfuly. Order details:\n from: " + currentDrone.getRequestingClient().getName() + ", "+ currentDrone.getRequestingClient().getAddress() +
-				"\n to: " + currentOrder.getDestinedClient().getName() + ", " + currentOrder.getDestinedClient().getAddress();
+		String message = "Order added successfuly. Order details:\n from: " + currentDrone.getRequestingClient().getName() + ", "+ currentDrone.getRequestingClient().getAddress().addressToString() +
+				"\n to: " + currentOrder.getDestinedClient().getName() + ", " + currentOrder.getDestinedClient().getAddress().addressToString();
 		System.out.println(message);
 		return message;
 	}

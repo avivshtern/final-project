@@ -6,7 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
+// this component is used as a popup to show to the registered user 
+// hes client id in a disclosed way. 
 public class ClientIDBox extends JFrame{
 	DroneSystem droneSystem;
 	JLabel messageLable = new JLabel(); 

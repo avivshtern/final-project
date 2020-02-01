@@ -8,7 +8,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Date;
-
+// In this component we order the drones.
+// the client can select from a list another client to send to.
+// If the Client has no shipments left in he's subscription then he will be asked to buy a new subscription. 
 public class DroneOrderForm extends JFrame implements ActionListener {
  
   DroneSystem droneSystem;
@@ -63,7 +65,7 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	 
   }
   
-  
+  // Creates the list of clients dynamically  
   private JPanel creatClientList(ArrayList<Client> clients){
 	  clientList.setPreferredSize(new Dimension(400, 400));
 	  for(int i = 0; i < clients.size(); i++ ) {
@@ -75,6 +77,7 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	  return clientListContainer;
   }
   
+  // Creates the Page header
   private JPanel PageHeader(String header, String description, String shipmentsLeftText) {
 	 JPanel headerPanel = panelWithPadding(0,10,0,10);
 	 headerPanel.setPreferredSize(new Dimension(400, 90));
@@ -94,12 +97,12 @@ public class DroneOrderForm extends JFrame implements ActionListener {
  	 headerPanel.add(descriptionLabel);
 	 return headerPanel;
  }
-  
+  // The Client card create a card component this is used to create the list dynamically 
   private JPanel clientCard(Client client, String btnText, boolean useClientIdAsActionCommand) {
 	 JPanel Ccard = new JPanel ();
 	 Ccard.setLayout(new BoxLayout(Ccard, BoxLayout.Y_AXIS));
 	 Ccard.add(new JLabel (client.getName()));
-	 Ccard.add(new JLabel (client.getAddress().toString()));
+	 Ccard.add(new JLabel (client.getAddress().addressToString()));
 	 Ccard.setPreferredSize(new Dimension(250, 40));
 	 JPanel paddingPanel = panelWithPadding(10,10,10,10);
 	 paddingPanel.add(Ccard);
@@ -113,7 +116,7 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	 borderPanel.add(selectBtn);
 	 return borderPanel;
  }
-  
+  // panelWithPadding panelWithBorder and to methods are used for stilling the card element
   private JPanel panelWithPadding(int top, int left ,int buttom, int right) {
 	 JPanel paddingPanel = new JPanel ();
 	 paddingPanel.setBorder(new EmptyBorder(top, left, buttom, right));
@@ -125,7 +128,7 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	 borderPanel.setBorder(new MatteBorder(top, left, buttom, right, matteColor));
 	 return borderPanel;
  }
-  
+  // This is a method to show the message after ordering. 
   private void showMessage() {
 	  messageBox.removeAll();
 	 JLabel messageLabel = new JLabel("<html>"+message+"</html>");
@@ -135,6 +138,7 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	  messageBox.repaint();
   }
   
+  // This method re-renders the header component every time the number of "subscription left" changes
   private void rerenderHeader() {
 	shipmentsLeftLabel.setText( "You Have " + user.getNumOfShipmentsLeft() + " left");
 	shipmentsLeftLabel.validate();
@@ -152,41 +156,43 @@ public class DroneOrderForm extends JFrame implements ActionListener {
 	  return null;
   }
   
-  
-	  private void creatAddSubscriptionPanel() {
-		  addSubscriptionBtn.addActionListener(this);
-		  addSubscriptionTypesBox.add(subscriptionTypeLabel);
-		  addSubscriptionTypesBox.add(subscriptionTypeComboBox);
-		  addSubscriptionTypesBox.add(addSubscriptionBtn);
-		  add(addSubscriptionTypesBox);
-		  
-	  }
+  // This Panel renders when the user needs to renew his subscription.
+  private void creatAddSubscriptionPanel() {
+	  addSubscriptionBtn.addActionListener(this);
+	  addSubscriptionTypesBox.add(subscriptionTypeLabel);
+	  addSubscriptionTypesBox.add(subscriptionTypeComboBox);
+	  addSubscriptionTypesBox.add(addSubscriptionBtn);
+	  add(addSubscriptionTypesBox);
+	  
+  }
 
  
-		@Override
-	    public void actionPerformed(ActionEvent e) {
-	  	System.out.println(e.getActionCommand());
-	  	if(e.getActionCommand() == "Send Delivery") {
-	  		
-	  	message = droneSystem.addOrder(user.getClientID(), selectedClient.getClientID());
-	  	this.user = droneSystem.currentUser;
-	  	if(this.user.getNumOfShipmentsLeft() == 0 ) {
-	  		creatAddSubscriptionPanel();
-	  	}
-	  	rerenderHeader();
-	  	showMessage();
-	  	}else if(e.getActionCommand() == "Buy Now") {
-	  		droneSystem.newSubscription(this.user, droneSystem.getSubscriptionEnum(subscriptionTypeComboBox.getSelectedItem().toString()));
-	  		rerenderHeader();
-	  	} else {
-	  		int id = Integer.parseInt(e.getActionCommand());
-	  		selectedClient = getClientByID(id);
-	  		resultBox.removeAll();
-	  		resultBox.add(clientCard(selectedClient, "Send Delivery", false));
-	  		resultBox.validate();
-	  		resultBox.repaint();	  		
-	  	}
-	  
+  @Override
+  public void actionPerformed(ActionEvent e) {
+	// Sends the delivery based on the selectedClient
+	if(e.getActionCommand() == "Send Delivery") {
+	message = droneSystem.addOrder(user.getClientID(), selectedClient.getClientID());
+	this.user = droneSystem.currentUser;
+	// If subscription has ended render the "Add Subscription Panel" 
+	if(this.user.getNumOfShipmentsLeft() == 0 ) {
+		creatAddSubscriptionPanel();
+	}
+	rerenderHeader();
+	showMessage();
+	// Renews the Subscription
+	}else if(e.getActionCommand() == "Buy Now") {
+		droneSystem.newSubscription(this.user, droneSystem.getSubscriptionEnum(subscriptionTypeComboBox.getSelectedItem().toString()));
+		rerenderHeader();
+	// Select the Client to send to
+	} else {
+		int id = Integer.parseInt(e.getActionCommand());
+		selectedClient = getClientByID(id);
+		resultBox.removeAll();
+		resultBox.add(clientCard(selectedClient, "Send Delivery", false));
+		  		resultBox.validate();
+		  		resultBox.repaint();	  		
+		  	}
+		  
   }
   
 }

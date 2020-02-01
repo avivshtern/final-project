@@ -11,7 +11,10 @@ public class DroneSystem {
 	public ArrayList<Drone> droneList = new ArrayList<Drone>(0);
 	public ArrayList<Order> orderList = new ArrayList<Order>(0);
 	
-	DroneSystem()
+	
+	DroneSystem(){}
+	
+	public boolean startSystem ()
 	{
 		//initiates the drones
 		for (int i=0; i<numOfDrones; i++)
@@ -19,18 +22,27 @@ public class DroneSystem {
 			Drone createdDrone=new Drone(i);
 			droneList.ensureCapacity(i+1); 
 			droneList.add(createdDrone);
+			DataBaseManager.addDroneIntoDb(createdDrone);
 		}
-		
-		System.out.println("system is ready");
+		if (!DataBaseManager.createsTables()){
+			System.out.println("Couldn't create DB tables. System cannot start");
+			return false;
+		}
+		else
+		{
+			System.out.println("System is ready");	
+			return true;
+		}
 	}
-
 	
 	public Client addClient (String firstName, String lastName, String cityName, String streetName, int streetNum, String phoneNumber, eSubscriptionType subscriptionType)
 	{
 		clientList.ensureCapacity(clientList.size()+1);
 		Client currentClient = new Client(firstName, lastName, cityName, streetName, streetNum, phoneNumber, clientList.size(), subscriptionType);
 		clientList.add(currentClient);
+		DataBaseManager.addClientIntoDb(currentClient);
 		System.out.println("Client added successfuly. Client details:\n"+ currentClient.clientToString());
+		
 		return currentClient;
 	}
 	
@@ -81,15 +93,14 @@ public class DroneSystem {
 		Drone currentDrone=findAvailableDrone();
 		if (currentDrone==null)
 		{
-			System.out.println("no available drone. please try again later");
-			return;
+			return "no available drone. please try again later";
 		}
 		orderList.ensureCapacity(orderList.size()+1);
 		Order currentOrder = new Order(orderList.size(), requestingClient, destinedClient, currentDrone);
 		orderList.add(currentOrder);
 		currentDrone.setForMission(currentOrder);
 		requestingClient.addNewOrder(currentOrder);
-		
+		DataBaseManager.addOrderIntoDb(currentOrder);
 		String message = "Order added successfuly. Order details:\n from: " + currentDrone.getRequestingClient().getName() + ", "+ currentDrone.getRequestingClient().getAddress() +
 				"\n to: " + currentOrder.getDestinedClient().getName() + ", " + currentOrder.getDestinedClient().getAddress();
 		System.out.println(message);
